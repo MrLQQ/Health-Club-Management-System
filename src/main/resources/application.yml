@@ -1,8 +1,18 @@
+# 数据库连接配置
 spring:
   datasource:
-    url: jdbc:mysql://mrlqq.top:3306/typecho?serverTimezone=GMT
+    url: jdbc:mysql://mrlqq.top:3306/HealthClub?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: SHOUji15241135786
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 修改tomcat端口
 server:
   port: 8050
+
+# 日志配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 忽略字段名下划线
+    map-underscore-to-camel-case: false

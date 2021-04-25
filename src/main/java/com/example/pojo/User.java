@@ -16,11 +16,7 @@ public class User {
 
     @TableId(type = IdType.ID_WORKER)
     private Long userID;
-
-    // 字段添加自动填充
-    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
-
     private String userName;
     private String userIdent;
     private String sex;

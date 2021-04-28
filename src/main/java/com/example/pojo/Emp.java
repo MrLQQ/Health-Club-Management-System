@@ -1,8 +1,6 @@
 package com.example.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
@@ -18,8 +16,13 @@ public class Emp {
 
     @TableId(type = IdType.ID_WORKER)
     private Long empID;
+
+    /*自动填充，emp创建时间*/
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     private String empName;
+    private String realName;
+    private String password;
     private String job;
     private String sex;
     private String address;

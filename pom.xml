@@ -74,6 +74,13 @@
             <version>3.4.2</version>
         </dependency>
 
+        <!--添加RandomUtil随机数依赖-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.5.16</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -6,6 +6,7 @@ spring:
     password: SHOUji15241135786
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
   thymeleaf:
     cache: false # 关闭页面缓存
     encoding: UTF-8 # 模板编码

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="static/css/me.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="h3 text-center">课程管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-inline" action="#">
+                <div class="input-group">
+                    <span class="input-group-addon">课程号</span>
+                    <input class="form-control" type="text" placeholder="课程号">
+                    <span class="input-group-addon">课程名</span>
+                    <input class="form-control" type="text" placeholder="课程名">
+                    <span class="input-group-addon">任课教练</span>
+                    <input class="form-control" type="text" placeholder="姓名">
+                </div>
+                <input class="btn btn-primary" type="submit" value="查找">
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">课程号</th>
+                <th scope="col" class="text-center">课程名</th>
+                <th scope="col" class="text-center">任课教练</th>
+                <th scope="col" class="text-center">上课时间/周</th>
+                <th scope="col" class="text-center">课余量</th>
+                <th scope="col" class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-center">1</td>
+                <td class="text-center">瑜伽</td>
+                <td class="text-center">张三</td>
+                <td class="text-center">星期四  13.00</td>
+                <td class="text-center">20</td>
+                <td class="text-center">
+                    <a href="#" class="btn btn-primary">修改</a>
+                    <a href="#" class="btn btn-danger">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

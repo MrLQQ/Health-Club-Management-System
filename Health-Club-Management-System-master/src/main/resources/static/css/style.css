@@ -1,0 +1,250 @@
+.overCurtain {
+	position:absolute;
+	height:674px;
+	width:100%;
+	left:0px;
+	top:0px;
+	opacity:0.7;
+	display:none;
+}
+.hide-center-login {
+	width:308px;
+	height:300px;
+	position:absolute;
+	right:0;
+	left:-1000px;
+	bottom:0;
+	top:0;
+	margin:auto;
+	display:none;
+	z-index:1;
+}
+.hide-center-login #formhead {
+	width:300px;
+	height:42px;
+	margin:0;
+	margin-top:200px;
+	padding-top:12px;
+	padding-bottom:-30px;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+	background-color:#101010;
+}
+.hide-center-login #formhead-title {
+	width:100px;
+	height:24px;
+	margin-left:106px;
+	margin-right:36px;
+	color:#bfbfbf;
+	font-weight:900;
+	display:inline-block;
+}
+.hide-center-login #loginclose {
+	width:35px;
+	height:20px;
+	border:0;
+	border-radius:20%;
+	background-color:red;
+	color:white;
+	display:inline-block;
+}
+.hide-center-login #formbody {
+	width:300px;
+	height:245px;
+	background-color:#1e1e1e;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+}
+.hide-center-login .loginHead {
+	margin-right:-8px;
+	padding:13px;
+	width:25px;
+	height:28px;
+	background-color:#141414;
+	vertical-align:middle;
+}
+.hide-center-login .loginInput {
+	height:52px;
+	width:230px;
+	padding-left:10px;
+	border:0;
+	background-color:#141414;
+	color:aliceblue;
+}
+.hide-center-login .loginUserName {
+	padding-left:30px;
+	padding-top:30px;
+}
+.hide-center-login .login1 #img-topleft-loginHead {
+	border-top-left-radius:5px;
+}
+.hide-center-login .login1 #input-topright-loginInput {
+	border-top-right-radius:5px;
+}
+.hide-center-login .login1 #img-bottomleft-loginHead {
+	border-bottom-left-radius:5px;
+}
+.hide-center-login .login1 #input-bottomright-loginInput {
+	border-bottom-right-radius:5px;
+}
+.hide-center-login .loginPassword {
+	padding-left:30px;
+}
+.hide-center-login #formfoot {
+	margin-top:30px;
+	margin-left:30px;
+}
+.hide-center-login #BSignIn {
+	border:0;
+	background:#329d90;
+	color:#ffffff;
+	width:240px;
+	height:40px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+.hide-center-register #Regiseter {
+	border:0;
+	background:#329d90;
+	color:#ffffff;
+	width:240px;
+	height:40px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+
+
+
+
+.hide-center-register {
+	width:308px;
+	height:300px;
+	position:absolute;
+	right:0;
+	left:-1000px;
+	bottom:0;
+	top:0;
+	margin:auto;
+	display:none;
+	z-index:1;
+}
+.hide-center-register #formhead {
+	width:300px;
+	height:42px;
+	margin:0;
+	margin-top:200px;
+	padding-top:12px;
+	padding-bottom:-30px;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+	background-color:#101010;
+}
+.hide-center-register #formbodyRegister {
+	width:300px;
+	height:358px;
+	background-color:#1e1e1e;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+}
+
+.hide-center-register #Register {
+	border:0;
+	background:#329d90;
+	color:#ffffff;
+	width:240px;
+	height:40px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+.hide-center-register #formhead-title-register {
+	width:100px;
+	height:24px;
+	margin-left:106px;
+	margin-right:36px;
+	color:#bfbfbf;
+	font-weight:900;
+	display:inline-block;
+}
+.hide-center-register #registerclose {
+	width:35px;
+	height:20px;
+	border:0;
+	border-radius:20%;
+	background-color:red;
+	color:white;
+	display:inline-block;
+}
+.hide-center-register #formbody {
+	width:300px;
+	height:245px;
+	background-color:#1e1e1e;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+}
+.hide-center-register .loginHead {
+	margin-right:-8px;
+	padding:13px;
+	width:25px;
+	height:28px;
+	background-color:#141414;
+	vertical-align:middle;
+}
+.hide-center-register .loginInput {
+	height:52px;
+	width:230px;
+	padding-left:10px;
+	border:0;
+	background-color:#141414;
+	color:aliceblue;
+}
+.hide-center-register .loginUserName {
+	padding-left:30px;
+	padding-top:30px;
+}
+.hide-center-register .login1 #img-topleft-loginHead {
+	border-top-left-radius:5px;
+}
+.hide-center-register .login1 #input-topright-loginInput {
+	border-top-right-radius:5px;
+}
+.hide-center-register .login1 #img-bottomleft-loginHead {
+	border-bottom-left-radius:5px;
+}
+.hide-center-register .login1 #input-bottomright-loginInput {
+	border-bottom-right-radius:5px;
+}
+.hide-center-register .loginPassword {
+	padding-left:30px;
+}
+.hide-center-register #formfoot {
+	margin-top:30px;
+	margin-left:30px;
+}
+.hide-center-register #BSignIn {
+	border:0;
+	background:#329d90;
+	color:#ffffff;
+	width:240px;
+	height:40px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+.hide-center-register #Regiseter {
+	border:0;
+	background:#329d90;
+	color:#ffffff;
+	width:240px;
+	height:40px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}

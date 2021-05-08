@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=devic-width, initial-scale=1.0" />
@@ -8,7 +8,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 		<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
-		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet"  href="static/css/style.css" />
 		<script>
 			function check(){
 				var password1 = reg.passwordOne.value;
@@ -31,10 +31,10 @@
 					<div class="m-item right item m-mobile-hide">
 						<div class="ui icon inverted transparent input">
 							<div class="login-button">
-							    <button id="login"> 登录</button>
+							    <button id="login" > 登录</button>
 							</div>
 							<div class="overCurtain"></div>
-							
+
 							<div class="hide-center-login">
 							    <div id="formhead">
 							        <div id="formhead-title">
@@ -42,7 +42,7 @@
 							        </div>
 							        <button type="button" id="loginclose">X</button>
 							    </div>
-							    <form action="index.html" name="log" method="post" id="formbody">
+							    <form action="/user/login" name="log" method="post" id="formbody">
 							        <div class="loginUserName">
 							            <input id="input-topright-loginInput" name="userName" class="loginInput" placeholder="用户名" type="text" required="">
 							        </div>
@@ -60,7 +60,7 @@
 							    <button id="register"> 注册</button>
 							</div>
 							<div class="overCurtain"></div>
-							
+
 							<div class="hide-center-register">
 							    <div id="formhead">
 							        <div id="formhead-title-register">
@@ -68,10 +68,13 @@
 							        </div>
 							        <button type="button" id="registerclose">X</button>
 							    </div>
-							    <form action="index.html" name="reg" method="post" id="formbodyRegister" onsubmit="return check()">
+							    <form action="/user/registered" name="reg" method="post" id="formbodyRegister" onsubmit="return check()">
 							        <div class="loginUserName">
 							            <input id="input-topright-loginInput" name="userName" class="loginInput"  type="text" placeholder="用户名" required="">
 							        </div>
+									<div class="loginUserName">
+										<input id="input-topright-loginInput" name="realName" class="loginInput"  type="text" placeholder="真实姓名" required="">
+									</div>
 							        <div class="loginPassword">
 							            <input id="input-bottomright-loginInput" name="passwordOne" class="loginInput" placeholder="密码" type="password" style="border-bottom-right-radius:5px;" required="">
 							        </div>
@@ -108,7 +111,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<!-- content -->
 						<div class="ui attached segment">
 							<div class="ui padded vartical segment">
@@ -119,77 +122,77 @@
 									</div>
 									<div class="five wide column">
 										<a href="#" target="_blank">
-											<img src="/images/器械.jpg" alt="" class="ui rounded image"/>
+											<img  src="static/images/器械.jpg" alt="" class="ui rounded image"/>
 										</a>
 									</div>
 								</div>
 							</div>
-							
-							<div class="ui padded vartical segment">
-								<div class="ui mobile reversed stackable grid">
-									<div class="eleven wide column">
-										<h3 class="ui header">健身器材介绍</h3>
-										<p class="m-text">就是玩</p>
-									</div>
-									<div class="five wide column">
-										<a href="#" target="_blank">
-											<img src="/images/瑜伽室.jpg" alt="" class="ui rounded image"/>
-										</a>
-									</div>
-								</div>
-							</div>
-							
-							<div class="ui padded vartical segment">
-								<div class="ui mobile reversed stackable grid">
-									<div class="eleven wide column">
-										<h3 class="ui header">健身器材介绍</h3>
-										<p class="m-text">就是玩</p>
-									</div>
-									<div class="five wide column">
-										<a href="#" target="_blank">
-											<img src="/images/力量.jpg" alt="" class="ui rounded image"/>
-										</a>
-									</div>
-								</div>
-							</div>
-							
-							<div class="ui padded vartical segment">
-								<div class="ui mobile reversed stackable grid">
-									<div class="eleven wide column">
-										<h3 class="ui header">健身器材介绍</h3>
-										<p class="m-text">就是玩</p>
-									</div>
-									<div class="five wide column">
-										<a href="#" target="_blank">
-											<img src="/images/器械2.jpg" alt="" class="ui rounded image"/>
-										</a>
-									</div>
-								</div>
-							</div>
-							<div class="ui padded vartical segment">
-								<div class="ui mobile reversed stackable grid">
-									<div class="eleven wide column">
-										<h3 class="ui header">健身器材介绍</h3>
-										<p class="m-text">就是玩</p>
-									</div>
-									<div class="five wide column">
-										<a href="#" target="_blank">
-											<img src="/images/器械1.jpg" alt="" class="ui rounded image"/>
-										</a>
-									</div>
-								</div>
-							</div>
-							
-							
-							
 
-							
-							
-							
-							
-							
+							<div class="ui padded vartical segment">
+								<div class="ui mobile reversed stackable grid">
+									<div class="eleven wide column">
+										<h3 class="ui header">健身器材介绍</h3>
+										<p class="m-text">就是玩</p>
+									</div>
+									<div class="five wide column">
+										<a href="#" target="_blank">
+											<img src="static/images/瑜伽室.jpg" alt="" class="ui rounded image"/>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="ui padded vartical segment">
+								<div class="ui mobile reversed stackable grid">
+									<div class="eleven wide column">
+										<h3 class="ui header">健身器材介绍</h3>
+										<p class="m-text">就是玩</p>
+									</div>
+									<div class="five wide column">
+										<a href="#" target="_blank">
+											<img src="static/images/力量.jpg" alt="" class="ui rounded image"/>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="ui padded vartical segment">
+								<div class="ui mobile reversed stackable grid">
+									<div class="eleven wide column">
+										<h3 class="ui header">健身器材介绍</h3>
+										<p class="m-text">就是玩</p>
+									</div>
+									<div class="five wide column">
+										<a href="#" target="_blank">
+											<img src="static/images/器械2.jpg" alt="" class="ui rounded image"/>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="ui padded vartical segment">
+								<div class="ui mobile reversed stackable grid">
+									<div class="eleven wide column">
+										<h3 class="ui header">健身器材介绍</h3>
+										<p class="m-text">就是玩</p>
+									</div>
+									<div class="five wide column">
+										<a href="#" target="_blank">
+											<img src="static/images/器械1.jpg" alt="" class="ui rounded image"/>
+										</a>
+									</div>
+								</div>
+							</div>
+
+
+
+
+
+
+
+
+
 						</div>
-						
+
 						<!-- footer -->
 						<div class="ui bottom attached segment">
 							<div class="ui middle aligned two column grid">
@@ -201,12 +204,12 @@
 								</div>
 							</div>
 						</div>
-						
-						
+
+
 					</div>
 					<!-- 右边的top -->
 					<div class="five wide column">
-						
+
 						<!-- 分类 -->
 						<div class="ui segments">
 							<div class="ui secondary segment">
@@ -250,7 +253,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<!-- 标签 -->
 						<div class="ui segments">
 							<div class="ui secondary segment">
@@ -306,7 +309,7 @@
 								</a>
 							</div>
 						</div>
-						
+
 						<!-- 最新推荐 -->
 						<div class="ui segments">
 							<div class="ui secondary segment">
@@ -337,7 +340,7 @@
 						<!-- 二维码 -->
 						<h4 class="ui horizontal divider header">扫码关注我</h4>
 						<div class="ui centered card" style="width: 11em;" >
-							<img src="/images/wechat.jpg" alt="" class="ui rounded image"/>
+							<img src="static/images/wechat.jpg" alt="" class="ui rounded image"/>
 						</div>
 					</div>
 				</div>
@@ -350,10 +353,10 @@
 					<div class="three wide column">
 						<div class="ui inverted link list">
 							<div class="item">
-								<img src="/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px;"/>
+								<img src="static/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px;"/>
 							</div>
 						</div>
-						
+
 					</div>
 					<div class="three wide column">
 						<h4 class="ui inverted header m-text-thin m-text-spaced">最新动态</h4>
@@ -380,7 +383,7 @@
 			</div>
 		</footer>
 
-		
+
 		<script>
 		$("#login").click(function () {
 		    $(".hide-center-login").fadeIn("slow");

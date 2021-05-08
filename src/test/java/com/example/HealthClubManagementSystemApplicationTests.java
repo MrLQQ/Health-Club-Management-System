@@ -1,14 +1,19 @@
 package com.example;
 
 import cn.hutool.core.util.RandomUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.mapper.*;
+import com.example.pojo.Course;
 import com.example.pojo.Emp;
 import com.example.pojo.User;
+import org.apache.ibatis.ognl.ASTThisVarRef;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -94,8 +99,7 @@ class HealthClubManagementSystemApplicationTests {
         }
     }
 
-   /* @Test
->>>>>>> c8eb31d (test)
+    @Test
     void addCourse(){
         ArrayList<Long> empIDs = new ArrayList<>();
         QueryWrapper<Emp> userQueryWrapper = new QueryWrapper<>();
@@ -115,10 +119,7 @@ class HealthClubManagementSystemApplicationTests {
             int insert = courseMapper.insert(course);
             System.out.println(insert);
         }
-<<<<<<< HEAD
     }
-=======
-    }*/
 
 }
 

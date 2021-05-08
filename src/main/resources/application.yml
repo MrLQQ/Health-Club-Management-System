@@ -6,20 +6,13 @@ spring:
     password: SHOUji15241135786
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
   thymeleaf:
     cache: false # 关闭页面缓存
     encoding: UTF-8 # 模板编码
     prefix: classpath:/templates/ # 页面映射路径
     suffix: .html # 试图后的后缀
     mode: HTML5 # 模板模式
-    check-template: true #是否在呈现模板之前检查模板是否存在
-    check-template-location: true  #检查模板位置是否正确(默认值:true)
-    enabled: true #是否为Web框架启用Thymeleaf视图解析
-
-  web:
-    resources:
-      # 设置静态资源路径
-      static-locations: [classpath:/resources/static/]
 
 # 修改tomcat端口
 server:

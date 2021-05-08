@@ -11,4 +11,10 @@ public class HelloController {
     public String helloController(){
         return "hello";
     }
+
+    @RequestMapping("/")
+    public ModelAndView indexController(ModelAndView mv){
+        mv.setViewName("index");
+        return mv;
+    }
 }

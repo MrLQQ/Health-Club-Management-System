@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @TableName("Pick")
 public class Pick {
-
+    
     private Long userID;
     private Long courseID;
 

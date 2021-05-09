@@ -12,9 +12,18 @@
     <link href="static/asserts/css/signin.css" rel="stylesheet">
 </head>
 
+
 <body class="text-center">
-<form class="form-signin" name="login" action="indexManager.html" method="post" onsubmit="return check()">
-    <img class="mb-4" src="static/images/manager.jpg" alt="" width="72" height="72">
+<div th:text="${#request.getAttribute('msg')}" id="showMsg" style="display: none">存数据的盒子，默认设置隐藏｛即输出的对应内容｝</div>
+<script  type="text/javascript">
+    /*消息弹窗*/
+    msg = document.getElementById("showMsg").innerHTML;
+    if (msg!=""){
+        alert(msg)
+    }
+</script>
+<form class="form-signin" name="login" action="/admin/login" method="post" onsubmit="return check()">
+    <img class="mb-4"  src="static/images/manager.jpg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
     <label class="sr-only">管理员账户</label>
     <input type="text" name="adminName" class="form-control" placeholder="管理员账户" required="" autofocus="">

@@ -10,6 +10,7 @@
 		<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 		<link rel="stylesheet"  href="static/css/style.css" />
 		<script>
+			/*表单验证*/
 			function check(){
 				var password1 = reg.passwordOne.value;
 				var password2 = reg.passwordTow.value;
@@ -19,10 +20,21 @@
 				}
 				return true;
 			}
+
+			/*消息弹窗*/
+			$(document).ready(
+				function(){
+					var msg = $("#Tmsg").html();
+					if (msg != ""){
+						alert(msg)
+					}
+				}
+			)
 		</script>
 	</head>
 	<body>
-		<!-- 导航 -->
+	<div th:text="${#request.getAttribute('msg')}" id="Tmsg" style="display: none" >存数据的盒子，默认设置隐藏｛即输出的对应内容｝</div>
+	<!-- 导航 -->
 		<nav class="ui inverted attached segment m-padded-tb-mini">
 			<div class="ui container">
 				<div class="ui inverted secondary stackable menu">

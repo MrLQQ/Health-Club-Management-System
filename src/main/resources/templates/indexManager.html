@@ -14,19 +14,19 @@
           <!--左边-->
           <nav class="navbar col-md-2  me-nav-right-style">
               <ul class="nav nav-pills nav-stacked me-nav-margin">
-                  <li><h3 class="text-info text-center">xxx:xxx</h3></li>
-                  <li class="btn presentation"><a href="defaultIndex.html" target="Manager" class="glyphicon glyphicon-home">首页</a></li>
-                  <li class="btn presentation"><a href="workersManager.html" target="Manager" class="glyphicon glyphicon-briefcase">员工管理</a> </li>
-                  <li class="btn presentation"><a href="userManager.html" target="Manager" class="glyphicon glyphicon-user">客户管理</a> </li>
-                  <li class="btn presentation"><a href="courseManager.html" target="Manager" class="glyphicon glyphicon-book">课程管理</a> </li>
-                  <li class="btn presentation"><a href="boxManager.html" target="Manager" class="glyphicon glyphicon-inbox">储物柜管理</a></li>
-                  <li class="btn presentation"><a href="login.html" class="glyphicon glyphicon-off">退出登录</a></li>
+                  <li><h3 class="text-info text-center" th:text ="${ident}+':'+${adminName}">xxx:xxx</h3></li>
+                  <li class="btn presentation"><a href="/admin/defaultIndex" target="Manager" class="glyphicon glyphicon-home">首页</a></li>
+                  <li class="btn presentation"><a href="/admin/workersManager" target="Manager" class="glyphicon glyphicon-briefcase">员工管理</a> </li>
+                  <li class="btn presentation"><a href="/admin/userManager" target="Manager" class="glyphicon glyphicon-user">客户管理</a> </li>
+                  <li class="btn presentation"><a href="/admin/courseManager" target="Manager" class="glyphicon glyphicon-book">课程管理</a> </li>
+                  <li class="btn presentation"><a href="/admin/boxManager" target="Manager" class="glyphicon glyphicon-inbox">储物柜管理</a></li>
+                  <li class="btn presentation"><a href="/admin" class="glyphicon glyphicon-off">退出登录</a></li>
               </ul>
           </nav>
           <!--右边-->
           <div class="col-md-10 me-nav-right-style">
               <div class="row">
-                  <iframe src="defaultIndex.html"  name="Manager" class="col-md-12 me-iframe"></iframe>
+                  <iframe src="/admin/defaultIndex"  name="Manager" class="col-md-12 me-iframe"></iframe>
               </div>
           </div>
       </div>

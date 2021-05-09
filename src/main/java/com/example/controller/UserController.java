@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +23,9 @@ public class UserController {
     private UserMapper userMapper;
 
     @PostMapping("/login")
-    public String login(ModelAndView mv,
-                        @RequestParam(name = "userName") String userName,
-                        @RequestParam(name = "password") String password){
+    public ModelAndView login(ModelAndView mv,
+                              @RequestParam(name = "userName") String userName,
+                              @RequestParam(name = "password") String password, RedirectAttributes attr){
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.select("password")
                 .eq("userName",userName);
@@ -32,10 +34,15 @@ public class UserController {
         for (Map<String, Object> map : maps) {
             SelectPassword= (String) map.get("password");
         }
-        if (password.equals(SelectPassword))
-            return "defaultIndex";
-        else
-            return "index";
+        if (password.equals(SelectPassword)){
+            mv.setViewName("defaultIndex");
+            return mv;
+        }
+        else{
+            mv.setViewName("redirect:/index");
+            attr.addFlashAttribute("msg","登录失败,用户名或密码错误");
+            return mv;
+        }
     }
 
     @PostMapping("/registered")
@@ -44,7 +51,8 @@ public class UserController {
                                    @RequestParam(name = "realName") String realName,
                                    @RequestParam(name = "passwordOne") String password,
                                    @RequestParam(name = "sex") String sex,
-                                   @RequestParam(name = "phone") String phone
+                                   @RequestParam(name = "phone") String phone,
+                                   RedirectAttributes attr
                              ){
         User user = new User();
         user.setUserName(userName);
@@ -53,7 +61,18 @@ public class UserController {
         user.setSex(sex);
         user.setPhone(phone);
         user.setUserIdent("非会员");
+
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.select("userName")
+                .eq("userName",userName);
+        if (userMapper.selectCount(userQueryWrapper)>=1){
+            mv.setViewName("redirect:/index");
+            attr.addFlashAttribute("msg","注册失败，用户名已存在");
+            return mv;
+        }
         userMapper.insert(user);
-        return new ModelAndView("redirect:/index");
+        mv.setViewName("redirect:/index");
+        attr.addFlashAttribute("msg","注册成功，请登录");
+        return mv;
     }
 }

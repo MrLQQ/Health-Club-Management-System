@@ -1,15 +1,14 @@
 package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mapper.AdminMapper;
 import com.example.pojo.Admin;
+import com.example.pojo.Emp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +29,8 @@ public class AdminController {
         request.setAttribute("msg",msg);
         return "login";
     }
+
+    // 管理员登录处理
     @PostMapping("/login")
     public String LoginVerification(@RequestParam(name = "adminName") String adminName,
                                     @RequestParam(name = "adminPassword") String adminPassword,
@@ -52,26 +53,26 @@ public class AdminController {
         return "indexManager";
     }
 
+    // 管理员默认页
     @RequestMapping("/defaultIndex")
     public String defaultIndex(){
         return "defaultIndex";
     }
 
-    @RequestMapping("/workersManager")
-    public String workersManager(){
-        return "workersManager";
-    }
 
+    // 用户管理页面
     @RequestMapping("/userManager")
     public String userManager(){
         return "userManager";
     }
 
+    // 课程管理页面
     @RequestMapping("/courseManager")
     public String courseManager(){
         return "courseManager";
     }
 
+    // 储物箱管理
     @RequestMapping("/boxManager")
     public String boxManager(){
         return "boxManager";

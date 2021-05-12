@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,7 +7,7 @@
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <link href="static/css/me.css" rel="stylesheet">
+    <link href="/static/css/me.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -18,12 +18,12 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form class="form-inline" action="#">
+            <form class="form-inline" th:action="@{/box/conditional?pageNum=1}" th:method="post">
                 <div class="input-group">
                     <span class="input-group-addon">ID</span>
-                    <input class="form-control" type="text" placeholder="ID">
+                    <input class="form-control" th:name="boxID" type="text" placeholder="ID">
                     <span class="input-group-addon">所属人</span>
-                    <input class="form-control" type="text" placeholder="姓名">
+                    <input class="form-control" th:name="userName" type="text" placeholder="姓名">
                 </div>
                 <input class="btn btn-primary" type="submit" value="查找">
             </form>
@@ -41,11 +41,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">王二麻子</td>
-                <td class="text-center">2021-06-05</td>
-                <td class="text-center">2021-08-05</td>
+            <tr th:each="boxInfo:${boxInfo}">
+                <td class="text-center" th:text="${boxInfo.boxID}">boxID</td>
+                <td class="text-center" th:text="${boxInfo.userName}">userName</td>
+                <td class="text-center" th:text="${boxInfo.startTime}">startTime</td>
+                <td class="text-center" th:text="${boxInfo.endTime}">endTime</td>
                 <td class="text-center">
                     <a href="#" class="btn btn-primary">修改</a>
                     <a href="#" class="btn btn-danger">删除</a>
@@ -53,6 +53,59 @@
             </tr>
             </tbody>
         </table>
+
+        <!--分页组件-->
+        <strong>一共[[${pages}]]页，[[${Total}]]条数据,当前为第[[${pageCurrent}]]页</strong>
+        <nav aria-label="Page navigation example">
+            <!--正常查询的跳转列表-->
+            <ul class="pagination justify-content-center"  th:if="${flag}=='normal'">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:if="${pageCurrent}-1<=0"
+                       th:href="'/box/'+${pageCurrent}"
+                       th:text="上一页">Previous</a>
+                    <a class="page-link"  th:if="${pageCurrent}-1>0" th:href="'/box/'+${pageCurrent-1}" th:text="上一页">Previous</a>
+                </li>
+                <li class="page-item" th:each="i:${#numbers.sequence(1,pages)}" th:classappend="${(pageCurrent==i ? 'active' : '')}">
+                    <a class="page-link" th:href="'/box/'+${i}" th:text="${i}">1</a>
+                </li>
+                <!--可以考虑url传递 查询条件-->
+                <li class="page-item">
+                    <a class="page-link" th:if="${pageCurrent}+1<=${pages}" th:href="'/box/'+${pageCurrent+1}"  th:text="下一页">Next</a>
+                    <a class="page-link" th:if="${pageCurrent}+1>${pages}" th:href="'/box/'+${pageCurrent}" th:text="下一页">Next</a>
+                </li>
+            </ul>
+
+            <!--条件查询的跳转列表-->
+            <ul class="pagination justify-content-center"  th:if="${flag}=='conditional'">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:if="${pageCurrent}-1<=0"
+                       th:href="@{/emp/conditional(pageNum=${pageCurrent},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:text="上一页">Previous</a>
+                    <a class="page-link"
+                       th:if="${pageCurrent}-1>0"
+                       th:href="@{/emp/conditional(pageNum=${pageCurrent-1},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:text="上一页">Previous</a>
+                </li>
+                <li class="page-item" th:each="i:${#numbers.sequence(1,pages)}" th:classappend="${(pageCurrent==i ? 'active' : '')}">
+                    <a class="page-link"
+                       th:href="@{/emp/conditional(pageNum=${i},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:text="${i}">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:if="${pageCurrent}+1<=${pages}"
+                       th:href="@{/emp/conditional(pageNum=${pageCurrent+1},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:text="下一页">Next</a>
+                    <a class="page-link"
+                       th:if="${pageCurrent}+1>${pages}"
+                       th:href="@{/emp/conditional(pageNum=${pageCurrent},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:text="下一页">Next</a>
+                </li>
+            </ul>
+        </nav>
+
     </div>
 </div>
 </body>

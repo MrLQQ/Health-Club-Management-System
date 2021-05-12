@@ -1,4 +1,4 @@
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
       <meta charset="UTF-8">
     <title>首页</title>
@@ -7,7 +7,7 @@
   <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <link href="static/css/me.css" rel="stylesheet">
+  <link href="/static/css/me.css" rel="stylesheet">
   <body>
   <div class="container-fluid me-height">
       <div class="row">
@@ -16,10 +16,10 @@
               <ul class="nav nav-pills nav-stacked me-nav-margin">
                   <li><h3 class="text-info text-center" th:text ="${ident}+':'+${adminName}">xxx:xxx</h3></li>
                   <li class="btn presentation"><a href="/admin/defaultIndex" target="Manager" class="glyphicon glyphicon-home">首页</a></li>
-                  <li class="btn presentation"><a href="/admin/workersManager" target="Manager" class="glyphicon glyphicon-briefcase">员工管理</a> </li>
-                  <li class="btn presentation"><a href="/admin/userManager" target="Manager" class="glyphicon glyphicon-user">客户管理</a> </li>
+                  <li class="btn presentation"><a href="/emp/1" target="Manager" class="glyphicon glyphicon-briefcase">员工管理</a> </li>
+                  <li class="btn presentation"><a href="/user/1" target="Manager" class="glyphicon glyphicon-user">客户管理</a> </li>
                   <li class="btn presentation"><a href="/admin/courseManager" target="Manager" class="glyphicon glyphicon-book">课程管理</a> </li>
-                  <li class="btn presentation"><a href="/admin/boxManager" target="Manager" class="glyphicon glyphicon-inbox">储物柜管理</a></li>
+                  <li class="btn presentation"><a href="/box/1" target="Manager" class="glyphicon glyphicon-inbox">储物柜管理</a></li>
                   <li class="btn presentation"><a href="/admin" class="glyphicon glyphicon-off">退出登录</a></li>
               </ul>
           </nav>

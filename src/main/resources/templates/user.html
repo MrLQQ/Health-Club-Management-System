@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=devic-width, initial-scale=1.0" />
+    <title>个人中心</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="/static/css/me.css" rel="stylesheet">
+
+    <link rel="stylesheet"  href="/static/css/style.css" />
+</head>
+<body>
+<!-- 导航 -->
+<div th:text="${msg}" id="showMsg" style="display: none">存数据的盒子，默认设置隐藏｛即输出的对应内容｝</div>
+<script  type="text/javascript">
+    /*消息弹窗*/
+    msg = document.getElementById("showMsg").innerHTML;
+    if (msg!=""){
+        alert(msg)
+    }
+</script>
+<nav class="ui inverted attached segment m-padded-tb-mini">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header m-blog" style=" display: inline-block; padding-top: 10px;">健身房管理系统</h2>
+            <a href="#" class="m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
+            <div class="m-item right item m-mobile-hide">
+                <div class="ui icon inverted transparent input">
+                    <div class="login-button">
+                        <span>用户:</span>
+                        <a th:text="${user.userName}">李禹锡</a>
+                    </div>
+                    <i style="margin-right:7px; margin-left:7px;  ">|</i>
+                    <div class="login-button">
+                        <a th:href="@{/index}" style="text-decoration: none;">退出登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</nav>
+
+
+
+            <div class="container">
+                <h2 class="text-center" style="margin: 20px;">个人中心</h2>
+                <form class="form-horizontal col-md-12" style="border:solid 1px; border-radius: 5px; margin-bottom: 20px; padding: 20px;"  method="post" action="/user/update" >
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">创建时间:</label>
+                        <div class="col-md-3">
+                            <input class="form-control"  name="createTime" th:value="${user.createTime}" type="text" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">用户ID:</label>
+                        <div class="col-md-3">
+                            <input class="form-control" name="userID" th:value="${user.userID}" type="text" readonly value="123456789">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">用户名:</label>
+                        <div class="col-md-3">
+                            <input class="form-control" name="userName" th:value="${user.userName}" type="text" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">用户密码:</label>
+                        <div class="col-md-3">
+                            <input class="form-control"  name="password" th:value="${user.password}" type="password" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">性别:</label>
+                        <div class="radio-inline col-md-1 text-right" style="margin-left: 16px;">
+                            <input  name="sex" type="radio" value="男" th:attr ="checked=${user.sex == '男'?true:false}">男
+                        </div>
+                        <div class="radio-inline col-md-1" style="margin-left: 16px;">
+                            <input  name="sex" type="radio" value="女" th:attr ="checked=${user.sex == '女'?true:false}">女
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">真实姓名:</label>
+                        <div class="col-md-3">
+                            <input class="form-control" name="realName" th:value="${user.realName}" type="text" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">身份:</label>
+                        <div class="col-md-3">
+                            <input class="form-control" name="ident" th:value="${user.userIdent}" type="text" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">联系方式:</label>
+                        <div class="col-md-3">
+                            <input class="form-control" name="phone" th:value="${user.phone}" type="text" required="">
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-info" type="submit" >提交修改</button>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+
+                <!-- 底部 -->
+                <footer class="ui inverted vertical segment m-padded-tb-massive">
+                    <div class="ui center aligned container">
+                        <div class="ui inverted divided stackable grid">
+                            <div class="three wide column">
+                                <div class="ui inverted link list">
+                                    <div class="item">
+                                        <img src="../static/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px;"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="three wide column">
+                                <h4 class="ui inverted header m-text-thin m-text-spaced">最新动态</h4>
+                                <div class="ui inverted link list">
+                                    <a href="#" class="item">健身器材</a>
+                                    <a href="#" class="item">入会须知</a>
+                                    <a href="#" class="item">最新课程</a>
+                                </div>
+                            </div>
+                            <div class="three wide column">
+                                <h4 class="ui inverted header m-text-thin m-text-spaced">联系我们</h4>
+                                <div class="ui inverted link list">
+                                    <a href="#" class="item">Email:2328181539@qq.com</a>
+                                    <a href="#" class="item">QQ:2328181539</a>
+                                </div>
+                            </div>
+                            <div class="seven wide column">
+                                <h4 class="ui inverted header m-text-thin m-text-spaced">介绍</h4>
+                                <p class="m-text-thin m-text-spaced m-opacity-mini">这是本健身会所的首页,给用户提供一些健身房的介绍...</p>
+                            </div>
+                        </div>
+                        <div class="ui inverted section divider"></div>
+                        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright©2021-2022Liyuxi and LQQ Designed by Liyuxi and LQQ</p>
+                    </div>
+                </footer>
+
+</body>
+</html>

@@ -62,7 +62,7 @@
             <tbody>
             <tr th:each="user:${userIPage.getRecords()}">
                 <td class="text-center" th:text="${user.userID}">userID</td>
-                <td class="text-center" th:text="${user.createTime}">createTime</td>
+                <td class="text-center" th:text="${#dates.format(user.createTime,'yyyy年MM月dd日 HH:mm:ss')}">createTime</td>
                 <td class="text-center" th:text="${user.userName}">userName</td>
                 <td class="text-center" th:text="${user.realName}">realName</td>
                 <td class="text-center" th:text="${user.userIdent}">userIdent</td>

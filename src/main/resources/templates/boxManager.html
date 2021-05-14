@@ -10,6 +10,16 @@
     <link href="/static/css/me.css" rel="stylesheet">
 </head>
 <body>
+<!--消息弹窗-->
+<div th:text="${#request.getAttribute('msg')}" id="showMsg" style="display: none">存数据的盒子，默认设置隐藏｛即输出的对应内容｝</div>
+<script  type="text/javascript">
+    /*消息弹窗*/
+    msg = document.getElementById("showMsg").innerHTML;
+    if (msg!=""){
+        alert(msg)
+    }
+</script>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -21,9 +31,15 @@
             <form class="form-inline" th:action="@{/box/conditional?pageNum=1}" th:method="post">
                 <div class="input-group">
                     <span class="input-group-addon">ID</span>
-                    <input class="form-control" th:name="boxID" type="text" placeholder="ID">
+                    <input class="form-control" th:name="boxID" th:value="${boxID}" type="text" placeholder="ID">
                     <span class="input-group-addon">所属人</span>
-                    <input class="form-control" th:name="userName" type="text" placeholder="姓名">
+                    <input class="form-control" th:name="userName" th:value="${userName}" type="text" placeholder="姓名">
+                    <span class="input-group-addon">状态</span>
+                    <select class="form-control" title="请选择状态" th:name="idle">
+                        <option value="normal" th:selected="${idle=='normal'}">默认</option>
+                        <option  value="rented" th:selected="${idle=='rented'}">已出租</option>
+                        <option  value="free" th:selected="${idle=='free'}">空闲</option>
+                    </select>
                 </div>
                 <input class="btn btn-primary" type="submit" value="查找">
             </form>
@@ -41,11 +57,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="boxInfo:${boxInfo}">
-                <td class="text-center" th:text="${boxInfo.boxID}">boxID</td>
-                <td class="text-center" th:text="${boxInfo.userName}">userName</td>
-                <td class="text-center" th:text="${boxInfo.startTime}">startTime</td>
-                <td class="text-center" th:text="${boxInfo.endTime}">endTime</td>
+            <tr th:each="box:${boxInfo}">
+                <td class="text-center" th:text="${box.boxID}">boxID</td>
+                <td class="text-center" th:text="${box.userName}">userName</td>
+                <td class="text-center" th:text="${#dates.format(box.startTime,'yyyy年MM月dd日 HH:mm:ss')}" >startTime</td>
+                <td class="text-center" th:text="${#dates.format(box.endTime,'yyyy年MM月dd日 HH:mm:ss')}">endTime</td>
                 <td class="text-center">
                     <a href="#" class="btn btn-primary">修改</a>
                     <a href="#" class="btn btn-danger">删除</a>
@@ -81,26 +97,26 @@
                 <li class="page-item">
                     <a class="page-link"
                        th:if="${pageCurrent}-1<=0"
-                       th:href="@{/emp/conditional(pageNum=${pageCurrent},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:href="@{/box/conditional(pageNum=${pageCurrent},boxID=${boxID},userName=${userName},idle=${idle})}"
                        th:text="上一页">Previous</a>
                     <a class="page-link"
                        th:if="${pageCurrent}-1>0"
-                       th:href="@{/emp/conditional(pageNum=${pageCurrent-1},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:href="@{/box/conditional(pageNum=${pageCurrent-1},boxID=${boxID},userName=${userName},idle=${idle})}"
                        th:text="上一页">Previous</a>
                 </li>
                 <li class="page-item" th:each="i:${#numbers.sequence(1,pages)}" th:classappend="${(pageCurrent==i ? 'active' : '')}">
                     <a class="page-link"
-                       th:href="@{/emp/conditional(pageNum=${i},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:href="@{/box/conditional(pageNum=${i},boxID=${boxID},userName=${userName},idle=${idle})}"
                        th:text="${i}">1</a>
                 </li>
                 <li class="page-item">
                     <a class="page-link"
                        th:if="${pageCurrent}+1<=${pages}"
-                       th:href="@{/emp/conditional(pageNum=${pageCurrent+1},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:href="@{/box/conditional(pageNum=${pageCurrent+1},boxID=${boxID},userName=${userName},idle=${idle})}"
                        th:text="下一页">Next</a>
                     <a class="page-link"
                        th:if="${pageCurrent}+1>${pages}"
-                       th:href="@{/emp/conditional(pageNum=${pageCurrent},empID=${empID},empName=${empName},sex=${sex},job=${job})}"
+                       th:href="@{/box/conditional(pageNum=${pageCurrent},boxID=${boxID},userName=${userName},idle=${idle})}"
                        th:text="下一页">Next</a>
                 </li>
             </ul>

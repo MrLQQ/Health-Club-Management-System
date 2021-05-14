@@ -10,6 +10,17 @@
     <link href="/static/css/me.css" rel="stylesheet">
 </head>
 <body>
+
+<!--消息弹窗-->
+<div th:text="${#request.getAttribute('msg')}" id="showMsg" style="display: none">存数据的盒子，默认设置隐藏｛即输出的对应内容｝</div>
+<script  type="text/javascript">
+    /*消息弹窗*/
+    msg = document.getElementById("showMsg").innerHTML;
+    if (msg!=""){
+        alert(msg)
+    }
+</script>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -18,14 +29,14 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form class="form-inline" action="#">
+            <form class="form-inline" th:action="@{/course/conditional?pageNum=1}" th:method="post">
                 <div class="input-group">
                     <span class="input-group-addon">课程号</span>
-                    <input class="form-control" type="text" placeholder="课程号">
+                    <input class="form-control" type="text" th:name="courseID" th:value="${courseID}" placeholder="课程号">
                     <span class="input-group-addon">课程名</span>
-                    <input class="form-control" type="text" placeholder="课程名">
+                    <input class="form-control" type="text" th:name="courseName" th:value="${courseName}" placeholder="课程名">
                     <span class="input-group-addon">任课教练</span>
-                    <input class="form-control" type="text" placeholder="姓名">
+                    <input class="form-control" type="text" th:name="empName" th:value="${empName}" placeholder="姓名">
                 </div>
                 <input class="btn btn-primary" type="submit" value="查找">
             </form>
@@ -44,12 +55,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">瑜伽</td>
-                <td class="text-center">张三</td>
-                <td class="text-center">星期四  13.00</td>
-                <td class="text-center">20</td>
+            <tr th:each="course:${courseInfo}">
+                <td class="text-center" th:text="${course.courseID}">courseID</td>
+                <td class="text-center" th:text="${course.courseName}">courseName</td>
+                <td class="text-center" th:text="${course.empName}">empName</td>
+                <td class="text-center" th:text="${course.time}">time</td>
+                <td class="text-center" th:text="${course.residue}">residue</td>
                 <td class="text-center">
                     <a href="#" class="btn btn-primary">修改</a>
                     <a href="#" class="btn btn-danger">删除</a>
@@ -64,30 +75,49 @@
             <!--正常查询的跳转列表-->
             <ul class="pagination justify-content-center"  th:if="${flag}=='normal'">
                 <li class="page-item">
-                    <a class="page-link"  th:if="${pageCurrent}-1<=0" th:href="'/emp/'+${pageCurrent}" th:text="上一页">Previous</a>
-                    <a class="page-link"  th:if="${pageCurrent}-1>0" th:href="'/emp/'+${pageCurrent-1}" th:text="上一页">Previous</a>
+                    <a class="page-link"
+                       th:if="${pageCurrent}-1<=0"
+                       th:href="'/course/'+${pageCurrent}"
+                       th:text="上一页">Previous</a>
+                    <a class="page-link"  th:if="${pageCurrent}-1>0" th:href="'/course/'+${pageCurrent-1}" th:text="上一页">Previous</a>
                 </li>
-                <li class="page-item" th:each="i:${#numbers.sequence(1,pages)}">
-                    <a class="page-link" th:href="'/emp/'+${i}" th:text="${i}">1</a>
+                <li class="page-item" th:each="i:${#numbers.sequence(1,pages)}" th:classappend="${(pageCurrent==i ? 'active' : '')}">
+                    <a class="page-link" th:href="'/course/'+${i}" th:text="${i}">1</a>
                 </li>
+                <!--可以考虑url传递 查询条件-->
                 <li class="page-item">
-                    <a class="page-link" th:if="${pageCurrent}+1<=${pages}" th:href="'/emp/'+${pageCurrent+1}"  th:text="下一页">Next</a>
-                    <a class="page-link" th:if="${pageCurrent}+1>${pages}" th:href="'/emp/'+${pageCurrent}" th:text="下一页">Next</a>
+                    <a class="page-link" th:if="${pageCurrent}+1<=${pages}" th:href="'/course/'+${pageCurrent+1}"  th:text="下一页">Next</a>
+                    <a class="page-link" th:if="${pageCurrent}+1>${pages}" th:href="'/course/'+${pageCurrent}" th:text="下一页">Next</a>
                 </li>
             </ul>
+
 
             <!--条件查询的跳转列表-->
             <ul class="pagination justify-content-center"  th:if="${flag}=='conditional'">
                 <li class="page-item">
-                    <a class="page-link"  th:if="${pageCurrent}-1<=0" th:href="'/emp/conditional/'+${pageCurrent}" th:text="上一页">Previous</a>
-                    <a class="page-link"  th:if="${pageCurrent}-1>0" th:href="'/emp/conditional/'+${pageCurrent-1}" th:text="上一页">Previous</a>
+                    <a class="page-link"
+                       th:if="${pageCurrent}-1<=0"
+                       th:href="@{/course/conditional(pageNum=${pageCurrent},courseID=${courseID},courseName=${courseName},empName=${empName})}"
+                       th:text="上一页">Previous</a>
+                    <a class="page-link"
+                       th:if="${pageCurrent}-1>0"
+                       th:href="@{/course/conditional(pageNum=${pageCurrent-1},courseID=${courseID},courseName=${courseName},empName=${empName})}"
+                       th:text="上一页">Previous</a>
                 </li>
-                <li class="page-item active"  th:each="i:${#numbers.sequence(1,pages)}">
-                    <a class="page-link" th:href="'/emp/conditional/'+${i}" th:text="${i}">1</a>
+                <li class="page-item" th:each="i:${#numbers.sequence(1,pages)}" th:classappend="${(pageCurrent==i ? 'active' : '')}">
+                    <a class="page-link"
+                       th:href="@{/course/conditional(pageNum=${i},courseID=${courseID},courseName=${courseName},empName=${empName})}"
+                       th:text="${i}">1</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" th:if="${pageCurrent}+1<=${pages}" th:href="'/emp/conditional/'+${pageCurrent+1}"  th:text="下一页">Next</a>
-                    <a class="page-link" th:if="${pageCurrent}+1>${pages}" th:href="'/emp/conditional/'+${pageCurrent}" th:text="下一页">Next</a>
+                    <a class="page-link"
+                       th:if="${pageCurrent}+1<=${pages}"
+                       th:href="@{/course/conditional(pageNum=${pageCurrent+1},courseID=${courseID},courseName=${courseName},empName=${empName})}"
+                       th:text="下一页">Next</a>
+                    <a class="page-link"
+                       th:if="${pageCurrent}+1>${pages}"
+                       th:href="@{/course/conditional(pageNum=${pageCurrent},courseID=${courseID},courseName=${courseName},empName=${empName})}"
+                       th:text="下一页">Next</a>
                 </li>
             </ul>
         </nav>

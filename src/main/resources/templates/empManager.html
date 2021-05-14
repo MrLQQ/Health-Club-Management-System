@@ -61,7 +61,7 @@
             <tbody>
             <tr th:each ="emp:${empIPage.getRecords()}">
                 <td class="text-center" th:text="${emp.empID}">empID</td>
-                <td class="text-center" th:text="${emp.createTime}">createTime-05-06</td>
+                <td class="text-center" th:text="${#dates.format(emp.createTime,'yyyy年MM月dd日 HH:mm:ss')}">createTime</td>
                 <td class="text-center" th:text="${emp.job}">job</td>
                 <td class="text-center" th:text="${emp.realName}">realName</td>
                 <td class="text-center" th:text="${emp.sex}">sex</td>

@@ -62,8 +62,8 @@
                 <td class="text-center" th:text="${course.time}">time</td>
                 <td class="text-center" th:text="${course.residue}">residue</td>
                 <td class="text-center">
-                    <a href="#" class="btn btn-primary">修改</a>
-                    <a href="#" class="btn btn-danger">删除</a>
+                    <a th:href="@{'/course/edit/'+${course.courseID}}"  class="btn btn-primary">修改</a>
+                    <a th:href="@{'/course/delete/'+${course.courseID}}" class="btn btn-danger">删除</a>
                 </td>
             </tr>
             </tbody>

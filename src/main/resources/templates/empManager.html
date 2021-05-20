@@ -41,6 +41,7 @@
                     <input class="form-control" name="job" type="text" th:value="${job}" placeholder="员工职位">
                 </div>
                 <input class="btn btn-primary" type="submit" value="查找">
+                <a th:href="@{/emp/empAdd}" class="btn btn-info">添加员工</a>
             </form>
         </div>
     </div>
@@ -68,8 +69,8 @@
                 <td class="text-center" th:text="${emp.address}">address</td>
                 <th class="text-center" th:text="${emp.phone}">phone</th>
                 <td class="text-center">
-                    <a href="#" class="btn btn-primary">修改</a>
-                    <a href="#" class="btn btn-danger">删除</a>
+                    <a th:href="@{'/emp/edit/'+${emp.empID}}" class="btn btn-primary">修改</a>
+                    <a th:href="@{'/emp/delete/'+${emp.empID}}" class="btn btn-danger">删除</a>
                 </td>
             </tr>
             </tbody>

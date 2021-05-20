@@ -20,8 +20,10 @@
 					<div class="m-item right item m-mobile-hide">
 						<div class="ui icon inverted transparent input">
 							<div class="login-button">
-								<span>用户:</span>
-							    <a th:href="@{/user/info(userName=${userName})}" th:text="${userName}">李禹锡</a>
+								<a href="user.index" th:href="@{/user/info(userName=${userName})}">
+									<img th:src="@{${image}}" class="ui avatar img" style="width: 14px; height: 14px; margin-right: 5px; display: inline;">
+									<i style="display: inline-block; float: right; padding-bottom: 5px;" th:text="${userName}">李禹锡</i>
+								</a>
 							</div>
 							<i style="margin-right:7px; margin-left:7px;  ">|</i>
 								<div class="login-button">

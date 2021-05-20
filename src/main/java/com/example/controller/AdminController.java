@@ -1,10 +1,8 @@
 package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mapper.AdminMapper;
 import com.example.pojo.Admin;
-import com.example.pojo.Emp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -23,8 +20,9 @@ public class AdminController {
 
     @RequestMapping("")
     public String LoginPage(@ModelAttribute("msg") String msg, HttpServletRequest request){
-        if (msg.equals(""))
+        if (msg.equals("")) {
             msg = "null";
+        }
         System.out.println("msg==>"+msg);
         request.setAttribute("msg",msg);
         return "login";
@@ -50,7 +48,7 @@ public class AdminController {
         }
         map.addAttribute("ident","管理员");
         map.addAttribute("adminName",adminName);
-        return "indexManager";
+        return "adminHomepage";
     }
 
     // 管理员默认页

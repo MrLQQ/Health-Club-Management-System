@@ -63,8 +63,8 @@
                 <td class="text-center" th:text="${#dates.format(box.startTime,'yyyy年MM月dd日 HH:mm:ss')}" >startTime</td>
                 <td class="text-center" th:text="${#dates.format(box.endTime,'yyyy年MM月dd日 HH:mm:ss')}">endTime</td>
                 <td class="text-center">
-                    <a href="#" class="btn btn-primary">修改</a>
-                    <a href="#" class="btn btn-danger">删除</a>
+                    <a th:href="@{'/box/edit/'+${box.boxID}}"  class="btn btn-primary">修改</a>
+                    <a th:href="@{'/box/delete/'+${box.boxID}}" class="btn btn-danger">删除</a>
                 </td>
             </tr>
             </tbody>

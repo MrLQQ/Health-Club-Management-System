@@ -26,4 +26,5 @@ public class User {
     private String userIdent;
     private String sex;
     private String phone;
+    private String image;
 }

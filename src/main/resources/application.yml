@@ -19,6 +19,12 @@ spring:
     resources:
       # 设置静态资源路径
       static-locations: [classpath:/resources/static/]
+  servlet:
+    multipart:
+      #最大上传文件大小，默认是1M
+      max-file-size: 1024MB
+      #最大量总上传文件的数据大小，默认10M
+      max-request-size: 1024MB
 
 
 
@@ -33,3 +39,11 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     # 忽略字段名下划线
     map-underscore-to-camel-case: false
+
+aliyun:
+  endpoint: oss-cn-beijing.aliyuncs.com
+  accessKeyId: LTAI5t6gPJZAgVXs6dZ6NKsa
+  accessKeySecret: jl3tqrjqxX2QuR0KzEp0g5gndWHOfD
+  bucketName: health-club-management-system
+  urlPrefix: health-club-management-system.oss-cn-beijing.aliyuncs.com
+  filedir: image/

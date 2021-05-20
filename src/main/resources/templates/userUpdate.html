@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="/static/css/me.css" rel="stylesheet">
+</head>
+<body>
+<body>
+<!--消息弹窗-->
+<div th:text="${#request.getAttribute('msg')}" id="showMsg" style="display: none">存数据的盒子，默认设置隐藏｛即输出的对应内容｝</div>
+<script  type="text/javascript">
+    /*消息弹窗*/
+    msg = document.getElementById("showMsg").innerHTML;
+    if (msg!=""){
+        alert(msg)
+    }
+</script>
+<div class="container">
+    <form class="form-horizontal col-md-12" method="post" th:action="@{/user/update}" style="border: solid 1px black; border-radius: 20px; margin: 20px;">
+        <h2 class="text-center">修改用户信息</h2>
+        <div class="form-group">
+            <label class="col-md-5 control-label">ID:</label>
+            <div class="col-md-3">
+                <input class="form-control" type="text" name="userID" th:value="${user.userID}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-5 control-label">创建时间:</label>
+            <div class="col-md-3">
+                <input class="form-control" type="text" name="createTime" th:value="${user.createTime}"  readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-5 control-label">用户名</label>
+            <div class="col-md-3">
+                <input class="form-control" type="text" name="userName" th:value="${user.userName}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-5 control-label">用户密码:</label>
+            <div class="col-md-3">
+                <input class="form-control" type="password" name="password" th:value="${user.password}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-5 control-label">真实姓名:</label>
+            <div class="col-md-3">
+                <input class="form-control" type="text" name="realName" th:value="${user.realName}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-5 control-label">用户身份:</label>
+            <div class="col-md-3">
+                <input class="form-control" type="text" name="userIdent" th:value="${user.userIdent}" required="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-5 control-label">性别:</label>
+            <div class="radio-inline col-md-1 text-right" style="margin-left: 16px;">
+                <input  name="sex" value="男" th:checked="${user.sex=='男'}" type="radio">男
+            </div>
+            <div class="radio-inline col-md-1" style="margin-left: 16px;">
+                <input  name="sex" value="女" th:checked="${user.sex=='女'}" type="radio">女
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-5 control-label">联系方式:</label>
+            <div class="col-md-3">
+                <input class="form-control" type="text" name="phone" th:value="${user.phone}" required="">
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <button class="btn btn-info" type="submit">提交修改</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

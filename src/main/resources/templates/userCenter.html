@@ -49,10 +49,53 @@
 </nav>
 
 
-
             <div class="container">
                 <h2 class="text-center" style="margin: 20px;">个人中心</h2>
-                <form class="form-horizontal col-md-12" style="border:solid 1px; border-radius: 5px; margin-bottom: 20px; padding: 20px;"  method="post" action="/user/update" >
+                <form class="form-horizontal col-md-12" style="border:solid 1px; border-radius: 5px; margin-bottom: 20px; padding: 20px;"  enctype="multipart/form-data" method="post" action="/user/userUpdate" >
+                    <div class="form-group">
+                        <div class="fileBox">
+                            <div class="inputBox">
+                                <i class="close" id="close1"></i>
+                                <input type="file" class="fileInput" value="点击上传头像" accept="image/*" th:name="image" id="pic1"
+                                       onChange="inputChange('pic1','inputImg1','add1','close1')"/>
+                                <img th:src="@{${user.image}}"
+                                     src="https://health-club-management-system.oss-cn-beijing.aliyuncs.com/image/0000000000000.png"
+                                     alt="" id="inputImg1" class="img-circle baseImg"/>
+                            </div>
+                        </div>
+                        <script>
+                            function inputChange(picId,imgId,addId,closeId){
+                                var files = document.getElementById(picId).files;
+                                console.log(files);
+
+                                if(files.length == 0) return;
+                                var form = new FormData(),
+                                    file = files[0];
+                                form.append('file', file);
+
+                                var reader = new FileReader();
+                                reader.readAsDataURL(file); //base64
+                                //接收到图片时触发onload
+                                reader.onload = function(e){
+                                    var result = reader.result;
+                                    console.log(result);
+                                    document.getElementById(imgId).src = result;
+                                    document.getElementById(imgId).classList.remove('hide');
+                                    document.getElementById(addId).classList.add('hide');
+                                    document.getElementById(closeId).classList.remove('hide');
+                                };
+
+                            }
+
+                            $(function(){
+                                $('.close').click(function(){
+                                    $(this).addClass('hide');
+                                    $(this).siblings('.add').removeClass('hide');
+                                    $(this).siblings('img').addClass('hide');
+                                })
+                            })
+                        </script>
+                    </div>
                     <div class="form-group">
                         <label class="col-md-5 control-label">创建时间:</label>
                         <div class="col-md-3">

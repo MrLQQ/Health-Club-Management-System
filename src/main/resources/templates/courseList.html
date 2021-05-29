@@ -1,0 +1,22 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col" class="text-center" th:text="${type}=='userID'?'课程ID':'用户ID'">ID</th>
+        <th scope="col" class="text-center">用户名</th>
+        <th scope="col" class="text-center">课程名</th>
+        <th scope="col" class="text-center">选课时间</th>
+        <th scope="col" class="text-center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="pick:${pickInfo}">
+            <td class="text-center" th:text="${type}=='userID'?${pick.courseID}:${pick.userID}" name="ID">userID</td>
+            <td class="text-center" th:text="${pick.userName}" name="userName">userName</td>
+            <td class="text-center" th:text="${pick.courseName}" name="courseName">courseName</td>
+            <td class="text-center" th:text="${pick.createTimeForString}" name="time">time</td>
+            <td class="text-center">
+                <a th:onclick="deleteCourse([[${pick.courseIDtoString}]],[[${pick.userIDtoString}]])" class="btn btn-danger">退课</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

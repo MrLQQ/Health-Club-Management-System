@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="/static/css/me.css" rel="stylesheet">
+</head>
+<body>
+
+<!--消息弹窗-->
+<div th:text="${#request.getAttribute('msg')}" id="showMsg" style="display: none">存数据的盒子，默认设置隐藏｛即输出的对应内容｝</div>
+<script  type="text/javascript">
+    /*消息弹窗*/
+    msg = document.getElementById("showMsg").innerHTML;
+    if (msg!=""){
+        alert(msg)
+    }
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="h3 text-center">课程管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">课程号</th>
+                <th scope="col" class="text-center">课程名</th>
+                <th scope="col" class="text-center">任课教练</th>
+                <th scope="col" class="text-center">上课时间/周</th>
+                <th scope="col" class="text-center">课余量</th>
+                <th scope="col" class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course:${courseInfo}">
+                <td class="text-center" th:text="${course.courseID}">courseID</td>
+                <td class="text-center" th:text="${course.courseName}">courseName</td>
+                <td class="text-center" th:text="${course.empName}">empName</td>
+                <td class="text-center" th:text="${course.time}">time</td>
+                    <td class="text-center" ><a th:text="${course.residue}"
+                                                th:href="@{'/pick/courseList/'+${course.courseID}(type=courseID)}"
+                                                id="addBtn" data-toggle="modal"
+                                                data-target="#mymodal"
+                                                class="btn">residue</a></td>
+                <td class="text-center">
+                    <a th:href="@{'/course/edit/'+${course.courseID}(behavior=empself)}"  class="btn btn-primary">修改</a>
+                    <a th:href="@{'/course/delete/'+${course.courseID}(behavior=empself)}" class="btn btn-danger">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 添加课程按钮 -->
+        <div style="text-align: center;">
+            <button type="button" class="btn btn-primary"
+                    data-toggle="modal" data-target="#addCourse"
+                    th:href="@{'/course/courseAdd/'+${empID}}">添加课程</button>
+        </div>
+
+        <br>
+
+        <!--添加课程模态框-->
+        <div class="modal fade bd-example-modal-lg" id="addCourse" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!--用来引入链接内容的空白模态框-->
+
+                </div>
+            </div>
+        </div>
+
+        <!--选课列表模态框-->
+        <div class="modal fade bd-example-modal-lg" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                   <!--用来引入链接内容的空白模态框-->
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $("#mymodal").on("hidden.bs.modal", function() {
+                $(this).removeData("bs.modal");
+            });
+            /*删除目标选课数据*/
+            function deleteCourse(courseID,userID) {
+                $.ajax({
+                    url: "/pick/delete/" + courseID + "/" + userID,
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    dataType: "json",
+                    complete: function(){
+                        /*刷新模态框*/
+                        $("#mymodal").removeData("bs.modal");//加载前，先清空模态窗口的内容
+                        $("#mymodal").modal({
+                            remote:"/pick/courseList/"+courseID+"?type=courseID",
+                        })
+                    }
+                })
+            }
+
+            function closeModal(){
+                alert("添加成功")
+                $("#addCourse").modal("hide");
+                $("#addCourse").removeData("bs.modal");//加载前，先清空模态窗口的内容
+            }
+        </script>
+
+        <!--分页组件-->
+        <strong>一共[[${pages}]]页，[[${Total}]]条数据,当前为第[[${pageCurrent}]]页</strong>
+        <nav aria-label="Page navigation example">
+            <!--正常查询的跳转列表-->
+            <ul class="pagination justify-content-center"  th:if="${flag}=='normal'">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:if="${pageCurrent}-1<=0"
+                       th:href="'/course/'+${pageCurrent}"
+                       th:text="上一页">Previous</a>
+                    <a class="page-link"  th:if="${pageCurrent}-1>0" th:href="'/course/'+${pageCurrent-1}" th:text="上一页">Previous</a>
+                </li>
+                <li class="page-item" th:each="i:${#numbers.sequence(1,pages)}" th:classappend="${(pageCurrent==i ? 'active' : '')}">
+                    <a class="page-link" th:href="'/course/'+${i}" th:text="${i}">1</a>
+                </li>
+                <!--可以考虑url传递 查询条件-->
+                <li class="page-item">
+                    <a class="page-link" th:if="${pageCurrent}+1<=${pages}" th:href="'/course/'+${pageCurrent+1}"  th:text="下一页">Next</a>
+                    <a class="page-link" th:if="${pageCurrent}+1>${pages}" th:href="'/course/'+${pageCurrent}" th:text="下一页">Next</a>
+                </li>
+            </ul>
+
+
+            <!--条件查询的跳转列表-->
+            <ul class="pagination justify-content-center"  th:if="${flag}=='conditional'">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:if="${pageCurrent}-1<=0"
+                       th:href="@{'emp/course/'+${empID}+'/'+${pageCurrent}}"
+                       th:text="上一页">Previous</a>
+                    <a class="page-link"
+                       th:if="${pageCurrent}-1>0"
+                       th:href="@{'emp/course/'+${empID}+'/'+${pageCurrent-1}}"
+                       th:text="上一页">Previous</a>
+                </li>
+                <li class="page-item" th:each="i:${#numbers.sequence(1,pages)}" th:classappend="${(pageCurrent==i ? 'active' : '')}">
+                    <a class="page-link"
+                       th:href="@{'emp/course/'+${empID}+'/'+${i}}"
+                       th:text="${i}">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:if="${pageCurrent}+1<=${pages}"
+                       th:href="@{'emp/course/'+${empID}+'/'+${pageCurrent+1}}"
+                       th:text="下一页">Next</a>
+                    <a class="page-link"
+                       th:if="${pageCurrent}+1>${pages}"
+                       th:href="@{'emp/course/'+${empID}+'/'+${pageCurrent}}"
+                       th:text="下一页">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+</body>
+</html>

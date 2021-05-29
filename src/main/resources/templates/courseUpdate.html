@@ -20,7 +20,7 @@
     }
 </script>
     <div class="container">
-        <form class="form-horizontal col-md-12" method="post" th:action="@{/course/update}" style="border: solid 1px #000000; border-radius: 20px; margin: 20px;">
+        <form class="form-horizontal col-md-12" method="post" th:action="@{/course/update(behavior=${behavior})}" style="border: solid 1px #000000; border-radius: 20px; margin: 20px;">
             <h2 class="text-center">课程信息修改</h2>
             <div class="form-group">
                 <label class="col-md-5 control-label">课程号:</label>

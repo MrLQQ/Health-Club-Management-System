@@ -20,15 +20,20 @@
 					<div class="m-item right item m-mobile-hide">
 						<div class="ui icon inverted transparent input">
 							<div class="login-button">
-								<a href="user.index" th:href="@{/user/info(userName=${userName})}">
+								<a href="user.index" th:href="@{/user/info(userName=${user.userName})}">
 									<img th:src="@{${image}}" class="ui avatar img" style="width: 14px; height: 14px; margin-right: 5px; display: inline;">
-									<i style="display: inline-block; float: right; padding-bottom: 5px;" th:text="${userName}">李禹锡</i>
+									<i style="display: inline-block; float: right; padding-bottom: 5px;" th:text="${user.userName}">李禹锡</i>
 								</a>
 							</div>
+
 							<i style="margin-right:7px; margin-left:7px;  ">|</i>
 								<div class="login-button">
-									<a th:href="@{/index}" style="text-decoration: none;">退出登录</a>
+									<a th:href="@{/course/emp/showAll(userID=${user.userID})}" style="text-decoration: none;">选课信息</a>
 								</div>
+							<i style="margin-right:7px; margin-left:7px;  ">|</i>
+							<div class="login-button">
+								<a th:href="@{/index}" style="text-decoration: none;">退出登录</a>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -40,7 +45,7 @@
 			<div class="ui container">
 				<div class="ui stackable grid">
 					<!-- 左边博客列表 -->
-					<div class="eleven wide column">
+					<div class="ten wide column">
 						<!-- header -->
 						<div class="ui top attached segment">
 							<div class="ui middle aligned two column grid">
@@ -121,14 +126,6 @@
 								</div>
 							</div>
 
-
-
-
-
-
-
-
-
 						</div>
 
 						<!-- footer -->
@@ -146,47 +143,22 @@
 
 					</div>
 					<!-- 右边的top -->
-					<div class="five wide column">
+					<div class="six wide column">
 
 						<!-- 分类 -->
 						<div class="ui segments">
 							<div class="ui secondary segment">
 								<div class="ui two column grid">
 									<div class="column">
-										<i class="idea icon"></i>今日课表
-									</div>
-									<div class="right aligned column">
-										<p>
-											星期一
-										</p>
+										<i class="idea icon"></i>本周课表
 									</div>
 								</div>
 							</div>
 							<div class="ui teal segment">
-								<div class="ui fluid vertical menu">
+								<div class="ui fluid vertical menu" th:each="course:${courses}">
 									<a href="#" class="item">
-										学习日志
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										思想与感悟
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										清单
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										JavaScript
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										创业
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										认知升级
-										<div class="ui teal basic left pointing label">12</div>
+										<span th:text="${course.courseName}">瑜伽</span>
+										<div class="ui teal basic left pointing label" th:text="${course.time}">周一、周四 11：00~11：50</div>
 									</a>
 								</div>
 							</div>

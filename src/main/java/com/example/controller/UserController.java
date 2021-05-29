@@ -2,7 +2,10 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mapper.CourseMapper;
+import com.example.mapper.EmpMapper;
 import com.example.mapper.UserMapper;
+import com.example.pojo.Course;
 import com.example.pojo.Emp;
 import com.example.pojo.User;
 import com.example.util.OSSClientUtil;
@@ -31,26 +34,40 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private EmpMapper empMapper;
+
+    @Autowired
+    private CourseMapper courseMapper;
+
     @PostMapping("/login")
     public ModelAndView login(ModelAndView mv,
                               @RequestParam(name = "userName") String userName,
                               @RequestParam(name = "password") String password, RedirectAttributes attr){
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("userName",userName);
-        List<Map<String, Object>> maps =userMapper.selectMaps(userQueryWrapper);
-        String SelectPassword="";
-        String image="";
-        for (Map<String, Object> map : maps) {
-            SelectPassword= (String) map.get("password");
-            image = (String) map.get("image");
-        }
-        if (password.equals(SelectPassword)){
+        User user = userMapper.selectOne(userQueryWrapper);
+
+        if (user!=null && password.equals(user.getPassword())){
+            String image=user.getImage();
             mv.setViewName("userIndex");
-            mv.addObject("userName",userName);
+            mv.addObject("user",user);
             mv.addObject("image",image);
+
+            List<Course> courses = courseMapper.selectList(null);
+            mv.addObject("courses",courses);
+
             return mv;
         }
         else{
+            QueryWrapper<Emp> empQueryWrapper = new QueryWrapper<>();
+            empQueryWrapper.eq("empName",userName);
+            Emp emp = empMapper.selectOne(empQueryWrapper);
+            if (emp!=null && emp.getPassword().equals(password)){
+                mv.setViewName("empHomepage");
+                mv.addObject("emp", emp);
+                return mv;
+            }
             mv.setViewName("redirect:/index");
             attr.addFlashAttribute("msg","登录失败,用户名或密码错误");
             return mv;

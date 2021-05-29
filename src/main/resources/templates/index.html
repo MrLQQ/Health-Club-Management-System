@@ -114,7 +114,7 @@
 			<div class="ui container">
 				<div class="ui stackable grid">
 					<!-- 左边博客列表 -->
-					<div class="eleven wide column">
+					<div class="ten wide column">
 						<!-- header -->
 						<div class="ui top attached segment">
 							<div class="ui middle aligned two column grid">
@@ -205,47 +205,22 @@
 
 					</div>
 					<!-- 右边的top -->
-					<div class="five wide column">
+					<div class="six wide column">
 
 						<!-- 分类 -->
 						<div class="ui segments">
 							<div class="ui secondary segment">
 								<div class="ui two column grid">
 									<div class="column">
-										<i class="idea icon"></i>今日课表
-									</div>
-									<div class="right aligned column">
-										<p>
-											星期一
-										</p>
+										<i class="idea icon"></i>本周课表
 									</div>
 								</div>
 							</div>
 							<div class="ui teal segment">
-								<div class="ui fluid vertical menu">
+								<div class="ui fluid vertical menu" th:each="course:${courses}">
 									<a href="#" class="item">
-										学习日志
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										思想与感悟
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										清单
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										JavaScript
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										创业
-										<div class="ui teal basic left pointing label">12</div>
-									</a>
-									<a href="#" class="item">
-										认知升级
-										<div class="ui teal basic left pointing label">12</div>
+										<span th:text="${course.courseName}">瑜伽</span>
+										<div class="ui teal basic left pointing label" th:text="${course.time}">周一、周四 11：00~11：50</div>
 									</a>
 								</div>
 							</div>

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mapper.CourseMapper;
 import com.example.mapper.EmpMapper;
+import com.example.mapper.UserMapper;
 import com.example.pojo.Course;
 import com.example.pojo.CourseEmpVO;
 import com.example.pojo.Emp;
@@ -18,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Queue;
 
 @Controller
 @RequestMapping("/course")
@@ -29,6 +29,10 @@ public class CourseController {
 
     @Autowired
     EmpMapper empMapper;
+
+    @Autowired
+    UserMapper userMapper;
+
 
     // 课程管理页面
     @RequestMapping("{pageNum}")
@@ -96,7 +100,7 @@ public class CourseController {
         } else {
             // 没有查询到数据 或者查询错误
             // 重定向到默认查询页
-            System.out.println("储物柜条件查找触发错误");
+            System.out.println("课程条件查找触发错误");
             modelAndView.setViewName("redirect:/course/1");
             attr.addFlashAttribute("msg","未查找到有效数据，请修改条件后重新查询");
         }
@@ -105,7 +109,7 @@ public class CourseController {
     }
 
     @RequestMapping("/edit/{courseID}")
-    public ModelAndView courseEdit(@PathVariable("courseID") Long courseID,ModelAndView modelAndView){
+    public ModelAndView courseEdit(@PathVariable("courseID") Long courseID,@RequestParam("behavior") String behavior,ModelAndView modelAndView){
         modelAndView.setViewName("courseUpdate");
         Course course = courseMapper.selectById(courseID);
         QueryWrapper<Emp> empQueryWrapper =new QueryWrapper<>();
@@ -113,6 +117,9 @@ public class CourseController {
                 .eq("empID",course.getEmpID());
         Emp emp = empMapper.selectOne(empQueryWrapper);
 
+        if (behavior.equals("empself")){
+            modelAndView.addObject("behavior",behavior);
+        }
         modelAndView.addObject("course",course);
         modelAndView.addObject("empName",emp.getEmpName());
 
@@ -125,7 +132,8 @@ public class CourseController {
                                    @RequestParam(name = "courseName", required = true) String courseName,
                                    @RequestParam(name = "empName", required = true) String empName,
                                    @RequestParam(name = "time", required = true) String time,
-                                   @RequestParam(name = "residue", required = true) Integer residue){
+                                   @RequestParam(name = "residue", required = true) Integer residue,
+                                   @RequestParam("behavior") String behavior){
 
         Course course = new Course();
         course.setCourseID(courseID);
@@ -140,6 +148,12 @@ public class CourseController {
             course.setEmpID(emp.getEmpID());
             int update = courseMapper.updateById(course);
             if (update>=1){
+                // 判断是否是emp自己的修改请求
+                if (behavior.equals("empself")){
+                    modelAndView.setViewName("redirect:/emp/course/"+emp.getEmpID()+"/1");
+                    return modelAndView;
+                }
+                // 不是来自emp的请求
                 modelAndView.setViewName("redirect:/course/1");
                 return modelAndView;
             }
@@ -147,6 +161,9 @@ public class CourseController {
         modelAndView.setViewName("courseUpdate");
         modelAndView.addObject("empName",empName);
         modelAndView.addObject("course",course);
+        if (behavior.equals("empself")){
+            modelAndView.addObject("behavior",behavior);
+        }
         modelAndView.addObject("msg","修改失败,当前教练不存在！");
         return modelAndView;
     }
@@ -154,8 +171,10 @@ public class CourseController {
     @RequestMapping("/delete/{courseID}")
     public ModelAndView userDelete(ModelAndView modelAndView,
                                    @PathVariable("courseID") Long courseID,
+                                   @RequestParam("behavior") String behavior,
                                    RedirectAttributes attr){
 
+        Course course = courseMapper.selectById(courseID);
         // 由于选课表或者租赁表的其中的外键都为userID
         // 所以在删除时候可能出现违反唯一约束的异常
         try{
@@ -169,7 +188,53 @@ public class CourseController {
                 return modelAndView;
             }
         }
-        modelAndView.setViewName("redirect:/course/1");
+
+        if (behavior.equals("empself")){
+            modelAndView.setViewName("redirect:/emp/course/"+course.getEmpID()+"/1");
+        }else {
+            modelAndView.setViewName("redirect:/course/1");
+        }
         return modelAndView;
     }
+
+    @RequestMapping("/courseAdd/{empID}")
+    public ModelAndView courseAdd(@PathVariable("empID") Long empID,ModelAndView modelAndView){
+        Emp emp = empMapper.selectById(empID);
+        modelAndView.addObject("emp",emp);
+        modelAndView.setViewName("courseAdd");
+        return modelAndView;
+    }
+
+    @RequestMapping("/save")
+    public ModelAndView saveCourse(ModelAndView modelAndView,
+                                   @RequestParam("courseName") String courseName,
+                                   @RequestParam("empID") Long empID,
+                                   @RequestParam("time") String time,
+                                   @RequestParam("residue") Integer residue){
+
+        Course course = new Course();
+        course.setCourseName(courseName);
+        course.setEmpID(empID);
+        course.setTime(time);
+        course.setResidue(residue);
+
+        int insert = courseMapper.insert(course);
+        modelAndView.addObject("msg","添加成功");
+        modelAndView.setViewName("redirect:/emp/course/"+empID+"/1");
+        return modelAndView;
+    }
+
+    @RequestMapping("/emp/showAll")
+    public ModelAndView showAll(ModelAndView modelAndView,
+                                @RequestParam("userID") Long userID){
+
+        List<CourseEmpVO> courseInfo = courseMapper.getCourseInfo();
+        modelAndView.setViewName("userCourse");
+        modelAndView.addObject("courseInfo",courseInfo);
+        User user = userMapper.selectById(userID);
+        modelAndView.addObject("user",user);
+
+        return modelAndView;
+    }
+
 }

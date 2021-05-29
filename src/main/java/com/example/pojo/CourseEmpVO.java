@@ -11,6 +11,7 @@ public class CourseEmpVO {
 
     private Long courseID;
     private String courseName;
+    private String courseIDtoString;
     private Long empID;
     private String time;
     private Integer residue;

@@ -1,0 +1,39 @@
+
+  <form class="form-horizontal" method="post" th:action="@{/course/save}">
+    <h2 class="text-center">添加课程</h2>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">课程名:</label>
+      <div class="col-md-3">
+        <input class="form-control" type="text" name="courseName"
+               data-bv-notempty="true"
+               data-bv-notempty-message="不能为空">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">任课教练:</label>
+      <div class="col-md-3">
+        <input class="form-control" type="text" name="empName" th:value="${emp.empName}" readonly>
+        <input class="form-control" type="hidden" name="empID" th:value="${emp.empID}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">上课时间/周:</label>
+      <div class="col-md-3">
+        <input class="form-control" type="text" name="time"
+               data-bv-notempty="true"
+               data-bv-notempty-message="不能为空">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">课余量:</label>
+      <div class="col-md-3">
+        <input class="form-control" name="residue" type="text"
+               data-bv-notempty="true"
+               data-bv-notempty-message="不能为空">
+      </div>
+    </div>
+    <div class="form-group text-center">
+      <button class="btn btn-info" th:onclick="closeModal()" type="submit">提交修改</button>
+    </div>
+  </form>

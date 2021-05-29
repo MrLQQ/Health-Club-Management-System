@@ -228,7 +228,7 @@ public class CourseController {
     public ModelAndView showAll(ModelAndView modelAndView,
                                 @RequestParam("userID") Long userID){
 
-        List<CourseEmpVO> courseInfo = courseMapper.getCourseInfo();
+        List<CourseEmpVO> courseInfo = courseMapper.getCourseInfo(null);
         modelAndView.setViewName("userCourse");
         modelAndView.addObject("courseInfo",courseInfo);
         User user = userMapper.selectById(userID);

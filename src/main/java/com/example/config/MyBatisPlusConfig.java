@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * 注册mybatis-plus文件插件
+ * @author LQQ
+ */
 @MapperScan("com.example.mapper")
 @EnableTransactionManagement
 @Configuration

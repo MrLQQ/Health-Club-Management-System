@@ -29,7 +29,12 @@ public class BoxController {
     UserMapper userMapper;
 
 
-    // 储物柜管理页面
+    /**
+     * 储物柜管理页面,分页显示
+     * @param pageNum 分页页码
+     * @param modelAndView modelAndView
+     * @return modelAndView
+     */
     @RequestMapping("{pageNum}")
     public ModelAndView boxManager(@PathVariable("pageNum") Integer pageNum, ModelAndView modelAndView){
 
@@ -51,7 +56,16 @@ public class BoxController {
         return modelAndView;
     }
 
-    // 储物柜条件管理页面
+    /**
+     * 储物柜条件管理页面，分页显示
+     * @param modelAndView modelAndView
+     * @param pageNum 分页页码
+     * @param boxID 储物柜ID
+     * @param userName
+     * @param idle
+     * @param attr
+     * @return
+     */
     @RequestMapping("/conditional")
     public ModelAndView boxpManagerByConditional(ModelAndView modelAndView,
                                                  @RequestParam(name = "pageNum") Integer pageNum,

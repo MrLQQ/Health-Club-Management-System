@@ -7,6 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 管理员实体类
+ * @author LQQ
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

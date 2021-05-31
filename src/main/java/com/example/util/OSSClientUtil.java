@@ -14,20 +14,37 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Random;
 
+/**
+ * 文件上传OSS服务工具类
+ * @author LQQ
+ */
 @Repository
-public class OSSClientUtil {
+public class OSSClientUtil{
     Log log = LogFactory.getLog(OSSClientUtil.class);
 
-    //阿里云OSS地址，这里看根据你的oss选择
+    /**
+     * 阿里云OSS地址，这里看根据你的oss选择
+     */
     protected static String endpoint = "oss-cn-beijing.aliyuncs.com";
-    //阿里云OSS账号
+
+    /**
+     * 阿里云OSS账号
+     */
     protected static String accessKeyId = "LTAI5t6gPJZAgVXs6dZ6NKsa";
-    //阿里云OSS密钥
+
+    /**
+     * 阿里云OSS密钥
+     */
     protected static String accessKeySecret = "jl3tqrjqxX2QuR0KzEp0g5gndWHOfD";
-    //阿里云OSS上的存储块bucket名字
+
+    /**
+     * 阿里云OSS上的存储块bucket名字
+     */
     protected static String bucketName = "health-club-management-system";
 
-    //阿里云图片文件存储目录
+    /**
+     * 阿里云图片文件存储目录
+     */
     private String homeimagedir = "image/";
 
     private OSSClient ossClient;
@@ -53,8 +70,8 @@ public class OSSClientUtil {
     /**
      * 图片 上传阿里云oss
      *
-     * @param file
-     * @return
+     * @param file 上传的图片文件
+     * @return name
      */
     public String uploadHomeImageOSS(MultipartFile file) throws Exception {
         if (file.getSize() > 1024 * 1024 * 10) {
@@ -77,8 +94,8 @@ public class OSSClientUtil {
     /**
      * 获得图片路径
      *
-     * @param fileUrl
-     * @return
+     * @param fileUrl 文件url
+     * @return 文件在网络上的url
      */
     public String getHomeImageUrl(String fileUrl) {
         System.out.println("fileUrl"+fileUrl);
@@ -167,8 +184,8 @@ public class OSSClientUtil {
     /**
      * 获得url链接
      *
-     * @param key
-     * @return
+     * @param key 文件在服务器上的路径
+     * @return 文件在网络上的url
      */
     public String getUrl(String key) {
         System.out.println("key==>"+key);
@@ -189,8 +206,8 @@ public class OSSClientUtil {
     /**
      * 判断图片
      *
-     * @param file
-     * @return
+     * @param file 图片文件
+     * @return 图片路径
      * @throws Exception
      */
     public String updateHomeImage(MultipartFile file) throws Exception {

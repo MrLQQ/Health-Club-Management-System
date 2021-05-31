@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 
+/**
+ * 用户实体类
+ * @author LQQ
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +21,9 @@ public class User {
     @TableId(type = IdType.ID_WORKER)
     private Long userID;
 
-    /*自动填充，user创建时间*/
+    /**
+     * 自动填充，user创建时间
+     */
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     private String userName;

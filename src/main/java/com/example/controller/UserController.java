@@ -19,14 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * 用户Controller，拦截和处理关于用户的请求或业务
+ * @author LQQ
+ */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController{
 
     @Autowired
     OSSClientUtil ossClientUtil;
@@ -40,34 +42,54 @@ public class UserController {
     @Autowired
     private CourseMapper courseMapper;
 
+    /**
+     * 用户的登录业务，可以处理用户身份登录，以及员工身份登录
+     * @param mv ModelAndView
+     * @param userName 用户名
+     * @param password 密码
+     * @param attr 重定向后传递数据
+     * @return 用户登录：userIndex.html
+     *         员工登录：empHomepage.html
+     *         登录失败：重定向到"redirect:/index"
+     */
     @PostMapping("/login")
     public ModelAndView login(ModelAndView mv,
                               @RequestParam(name = "userName") String userName,
                               @RequestParam(name = "password") String password, RedirectAttributes attr){
+
+        // 先将当前userName在User表中进行查找
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("userName",userName);
         User user = userMapper.selectOne(userQueryWrapper);
 
+        // 如果User表中存在当前user并且密码相同
         if (user!=null && password.equals(user.getPassword())){
+            // 获取头像url
             String image=user.getImage();
             mv.setViewName("userIndex");
             mv.addObject("user",user);
             mv.addObject("image",image);
 
+            // 获取所有课程
             List<Course> courses = courseMapper.selectList(null);
             mv.addObject("courses",courses);
 
             return mv;
         }
+        // 在User表中没有查询到目标用户后，则在Emp员工表中再次进行查找比对
         else{
             QueryWrapper<Emp> empQueryWrapper = new QueryWrapper<>();
             empQueryWrapper.eq("empName",userName);
             Emp emp = empMapper.selectOne(empQueryWrapper);
+
+            // 如果在Emp表中查询到目标信息，并且密码也相同
             if (emp!=null && emp.getPassword().equals(password)){
+                // 跳转到empHomepage.html
                 mv.setViewName("empHomepage");
                 mv.addObject("emp", emp);
                 return mv;
             }
+            // 在User表和Emp表中均为查询到目标用户，则用户不存在
             mv.setViewName("redirect:/index");
             attr.addFlashAttribute("msg","登录失败,用户名或密码错误");
             return mv;
@@ -75,15 +97,15 @@ public class UserController {
     }
 
     /**
-     * 用户注册
-     * @param mv
-     * @param userName
-     * @param realName
-     * @param password
-     * @param sex
-     * @param phone
-     * @param attr
-     * @return ModelAndView
+     * 用户注册业务
+     * @param mv ModelAndView
+     * @param userName 用户名
+     * @param realName 真实姓名
+     * @param password 密码
+     * @param sex 性别
+     * @param phone 联系方式
+     * @param attr RedirectAttributes
+     * @return 重定向到redirect:/index
      */
     @PostMapping("/registered")
     public ModelAndView registered(ModelAndView mv,
@@ -92,8 +114,7 @@ public class UserController {
                                    @RequestParam(name = "passwordOne") String password,
                                    @RequestParam(name = "sex") String sex,
                                    @RequestParam(name = "phone") String phone,
-                                   RedirectAttributes attr
-                             ){
+                                   RedirectAttributes attr){
         User user = new User();
         user.setUserName(userName);
         user.setRealName(realName);
@@ -118,19 +139,34 @@ public class UserController {
         return mv;
     }
 
+    /**
+     * 用户个人信息
+     * @param userName 用户名
+     * @param map ModelMap
+     * @return userCenter.html
+     */
     @RequestMapping("/info")
-    public String userInfo(@RequestParam(name="userName",required = true) String userName,ModelMap map){
+    public String userInfo(@RequestParam(name="userName") String userName, ModelMap map){
 
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("userName",userName);
-        List<User> users = userMapper.selectList(userQueryWrapper);
-        for (User user : users) {
-            map.addAttribute("user",user);
-        }
+        User user = userMapper.selectOne(userQueryWrapper);
+        map.addAttribute("user",user);
 
         return "userCenter";
     }
 
+    /**
+     * 用户个人信息修改
+     * @param file 文件，上传的用户头像
+     * @param userID 用户ID
+     * @param userName 用户名
+     * @param password 真实姓名
+     * @param sex 性别
+     * @param phone 联系方式
+     * @param map ModelMap
+     * @return userCenter.html
+     */
     @PostMapping("/userUpdate")
     public String userUpdate(@RequestParam(value = "image") MultipartFile file,
                              @RequestParam(name="userID",required = true) String userID,
@@ -191,7 +227,13 @@ public class UserController {
         return "userCenter";
     }
 
-    // 用户管理页面
+
+    /**
+     * 管理用户界面
+     * @param pageNum 分页页码
+     * @param modelAndView modelAndView
+     * @return userManager.html
+     */
     @RequestMapping("/{pageNum}")
     public ModelAndView userManager(@PathVariable("pageNum") Integer pageNum,ModelAndView modelAndView){
 
@@ -212,7 +254,19 @@ public class UserController {
         return modelAndView;
     }
 
-    // 用户条件管理页面
+    /**
+     * 用户条件管理页面
+     * @param modelAndView modelAndView
+     * @param pageNum 分页页码
+     * @param userID 用户ID
+     * @param userName 用户名
+     * @param realName 真实姓名
+     * @param userIdent 用户身份
+     * @param sex 性别
+     * @param attr RedirectAttributes
+     * @return 查询成功：userManager.html
+     *         查询失败：重定向到redirect:/user/1
+     */
     @RequestMapping("/conditional")
     public ModelAndView workersManagerByConditional(ModelAndView modelAndView,
                                                     @RequestParam(name = "pageNum") Integer pageNum,
@@ -224,19 +278,19 @@ public class UserController {
                                                     RedirectAttributes attr){
         Page<User> page =new Page<>(pageNum,10);
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        if (!userID.equals("")) {
+        if (!"".equals(userID)) {
             userQueryWrapper.eq("userID",userID);
         }
-        if (!userName.equals("")) {
+        if (!"".equals(userName)) {
             userQueryWrapper.eq("userName",userName);
         }
-        if (!realName.equals("")) {
+        if (!"".equals(realName)) {
             userQueryWrapper.eq("realName",realName);
         }
-        if (!userIdent.equals("")) {
+        if (!"".equals(userIdent)) {
             userQueryWrapper.eq("userIdent",userIdent);
         }
-        if (!sex.equals("")) {
+        if (!"".equals(sex)) {
             userQueryWrapper.eq("sex",sex);
         }
 
@@ -266,6 +320,12 @@ public class UserController {
         return modelAndView;
     }
 
+    /**
+     * 用户修改页面
+     * @param userID 用户ID
+     * @param modelAndView modelAndView
+     * @return userUpdate.html
+     */
     @RequestMapping("/edit/{userID}")
     public ModelAndView userEdit(@PathVariable("userID") Long userID,ModelAndView modelAndView){
         modelAndView.setViewName("userUpdate");
@@ -274,12 +334,22 @@ public class UserController {
         return modelAndView;
     }
 
+    /**
+     * 用户修改业务
+     * @param modelAndView modelAndView
+     * @param userID 用户ID
+     * @param sex 性别
+     * @param userIdent 用户身份
+     * @param phone 联系方式
+     * @return 修改成功：重定向到redirect:/user/1
+     *         修改失败：userUpdate.html
+     */
     @RequestMapping("/update")
     public ModelAndView userUpdate(ModelAndView modelAndView,
-                                  @RequestParam(name = "userID",required = true) Long userID,
-                                  @RequestParam(name = "sex", required = true) String sex,
-                                  @RequestParam(name = "userIdent", required = true) String userIdent,
-                                  @RequestParam(name = "phone", required = true) String phone){
+                                  @RequestParam(name = "userID") Long userID,
+                                  @RequestParam(name = "sex") String sex,
+                                  @RequestParam(name = "userIdent") String userIdent,
+                                  @RequestParam(name = "phone") String phone){
         User user = new User();
         user.setUserID(userID);
         user.setSex(sex);
@@ -296,6 +366,13 @@ public class UserController {
         return modelAndView;
     }
 
+    /**
+     * 用户删除业务
+     * @param modelAndView modelAndView
+     * @param userID 用户ID
+     * @param attr RedirectAttributes
+     * @return 重定向到redirect:/user/1
+     */
     @RequestMapping("/delete/{userID}")
     public ModelAndView userDelete(ModelAndView modelAndView,
                                   @PathVariable("userID") Long userID,

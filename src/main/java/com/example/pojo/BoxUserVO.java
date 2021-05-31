@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * 储物柜-用户关系实体类
+ * @author LQQ
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

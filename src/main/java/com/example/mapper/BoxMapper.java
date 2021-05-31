@@ -12,12 +12,28 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author LQQ
+ */
 @Repository
 public interface BoxMapper extends BaseMapper<Box> {
 
+    /**
+     * 查询储物柜的租赁信息
+     * Box表和User表进行联合查询
+     * @param page Page<BoxUserVO> 分页工具
+     * @return List<BoxUserVO>
+     */
     @Select("SELECT Box.*,(select userName from User where Box.userID=User.userID) as userName FROM Box")
     List<BoxUserVO> getBoxInfo(Page<BoxUserVO> page);
 
+    /**
+     * 条件查询储物柜的租赁信息
+     * Box表和User表进行联合条件查询
+     * @param page Page<BoxUserVO> 分页工具
+     * @param boxUserVOWrapper Wrapper<BoxUserVO>条件构造器
+     * @return List<BoxUserVO>
+     */
     @Select("SELECT Box.*,(select userName from User where Box.userID=User.userID) as userName FROM Box ${ew.customSqlSegment}")
-    List<BoxUserVO> getBoxInfoByconditional(Page<BoxUserVO> page,@Param(Constants.WRAPPER)Wrapper<BoxUserVO> boxUserVOWrapper);
+    List<BoxUserVO> getBoxInfoByConditional(Page<BoxUserVO> page, @Param(Constants.WRAPPER)Wrapper<BoxUserVO> boxUserVOWrapper);
 }

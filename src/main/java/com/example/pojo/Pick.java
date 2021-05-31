@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * 选课实体类
+ * @author LQQ
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +24,9 @@ public class Pick {
     private Long userID;
     private Long courseID;
 
-    /*自动填充，选课的时间*/
+    /**
+     * 自动填充，选课的时间
+     */
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 }

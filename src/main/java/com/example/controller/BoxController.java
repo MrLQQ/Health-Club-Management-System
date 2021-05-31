@@ -18,6 +18,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+/**
+ * 储物柜Controller<br>
+ * 用于处理所有关于储物柜的请求与业务
+ * @author LQQ
+ */
 @Controller
 @RequestMapping("box")
 public class BoxController {
@@ -57,17 +62,18 @@ public class BoxController {
     }
 
     /**
-     * 储物柜条件管理页面，分页显示
+     * 储物柜条件管理页面，分页显示，多表联合查询，条件查询
      * @param modelAndView modelAndView
      * @param pageNum 分页页码
      * @param boxID 储物柜ID
-     * @param userName
-     * @param idle
-     * @param attr
-     * @return
+     * @param userName 用户名
+     * @param idle 状态：free||rented<br/>
+     *             储物柜的租用状态。
+     * @param attr 全局RedirectAttributes
+     * @return ModelAndView
      */
     @RequestMapping("/conditional")
-    public ModelAndView boxpManagerByConditional(ModelAndView modelAndView,
+    public ModelAndView boxManagerByConditional(ModelAndView modelAndView,
                                                  @RequestParam(name = "pageNum") Integer pageNum,
                                                  @RequestParam(name = "boxID", defaultValue = "") String boxID,
                                                  @RequestParam(name = "userName", defaultValue = "") String userName,
@@ -78,6 +84,8 @@ public class BoxController {
         Page<BoxUserVO> page= new Page<>(pageNum,10);
         QueryWrapper<BoxUserVO> boxUserVOQueryWrapper = new QueryWrapper<>();
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+
+        // 判断是否存在条件查询，如果存在把条件放入QueryWrapper<BoxUserVO>中
         if (!boxID.equals("")) {
             boxUserVOQueryWrapper.eq("boxID",boxID);
         }
@@ -94,8 +102,10 @@ public class BoxController {
             boxUserVOQueryWrapper.isNotNull("userID");
         }
 
-        List<BoxUserVO> boxInfo = boxMapper.getBoxInfoByconditional(page,boxUserVOQueryWrapper);
+        // 使用自定义的getBoxInfoByConditional方法进行分页查询
+        List<BoxUserVO> boxInfo = boxMapper.getBoxInfoByConditional(page,boxUserVOQueryWrapper);
 
+        // 如果分页查询到了数据，把需要的数据保存传到前端。
         if (page.getTotal() > 0) {
             modelAndView.setViewName("boxManager");
             modelAndView.addObject("boxInfo", boxInfo);
@@ -118,9 +128,20 @@ public class BoxController {
         return modelAndView;
     }
 
+    /**
+     * 储物柜修改页面跳转<br>
+     * 将查询到的目标箱子的信息传到前端
+     * @param boxID 目标储物柜ID
+     * @param modelAndView modelAndView
+     * @return 修改成功返回modelAndView
+     */
     @RequestMapping("/edit/{boxID}")
     public ModelAndView boxEdit(@PathVariable("boxID") String boxID,ModelAndView modelAndView){
+
+        // 设置视图映射为boxUpdate.html页面
         modelAndView.setViewName("boxUpdate");
+
+        // 根据目标ID查询box
         Box box = boxMapper.selectById(boxID);
 
         QueryWrapper<User> userQueryWrapper =new QueryWrapper<>();
@@ -134,6 +155,15 @@ public class BoxController {
         return modelAndView;
     }
 
+    /**
+     * 储物柜信息修改业务、租用业务
+     * @param modelAndView modelAndView
+     * @param boxID 目标储物柜ID
+     * @param userName 盒子的租用人
+     * @param startTime 租用开始时间
+     * @param endTime 租用结束时间
+     * @return 重定向到显示盒子界面=>redirect:/box/1
+     */
     @RequestMapping("/update")
     public ModelAndView userUpdate(ModelAndView modelAndView,
                                    @RequestParam(name = "boxID",required = true) String boxID,
@@ -144,6 +174,7 @@ public class BoxController {
         Box box = new Box();
         box.setBoxID(boxID);
         try {
+            // 将前台的日期时间类型，进行格式化处理，然后存储日数据
             box.setStartTime(new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").parse(startTime));
             box.setEndTime(new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").parse(endTime));
         } catch (ParseException e) {
@@ -154,7 +185,11 @@ public class BoxController {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("userName",userName);
         User user = userMapper.selectOne(userQueryWrapper);
+
+        // 判断租用人是否存在
         if (user!=null){
+
+            // 如果存在，允许修改（租用）
             box.setUserID(user.getUserID());
             int update = boxMapper.updateById(box);
             if (update>=1){
@@ -162,6 +197,8 @@ public class BoxController {
                 return modelAndView;
             }
         }
+
+        // 不存在，视图跳转到boxUpdate.html页面重新修改
         modelAndView.setViewName("boxUpdate");
         modelAndView.addObject("userName",userName);
         modelAndView.addObject("box",box);
@@ -169,6 +206,13 @@ public class BoxController {
         return modelAndView;
     }
 
+    /**
+     * 储物柜删除业务
+     * @param modelAndView modelAndView
+     * @param boxID 目标储物柜ID
+     * @param attr 全局RedirectAttributes，用于重定向后传递数据
+     * @return 重定向到显示所有储物柜页面=>redirect:/box/1
+     */
     @RequestMapping("/delete/{boxID}")
     public ModelAndView userDelete(ModelAndView modelAndView,
                                    @PathVariable("boxID") String boxID,

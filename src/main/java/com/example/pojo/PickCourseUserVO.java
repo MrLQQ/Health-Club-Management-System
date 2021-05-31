@@ -3,9 +3,12 @@ package com.example.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
+/**
+ * 选课-课程-用户关系实体类
+ * @author LQQ
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

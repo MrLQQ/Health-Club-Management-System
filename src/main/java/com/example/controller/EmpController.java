@@ -17,6 +17,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 /**
+ * 员工Controller，拦截并处理关于员工的请求
  * @Author LQQ
  */
 @Controller
@@ -34,9 +35,9 @@ public class EmpController {
 
     /**
      * 所有员工分页查询
-     * @param pageNum
-     * @param modelAndView
-     * @return
+     * @param pageNum 分页页码
+     * @param modelAndView modelAndView
+     * @return empManager.html视图
      */
     @RequestMapping("/{pageNum}")
     public ModelAndView empManager(@PathVariable("pageNum") Integer pageNum,ModelAndView modelAndView){
@@ -61,14 +62,15 @@ public class EmpController {
 
     /**
      * 员工附带条件的多表分页查询
-     * @param modelAndView
-     * @param pageNum
-     * @param empID
-     * @param empName
-     * @param sex
-     * @param job
-     * @param attr
-     * @return
+     * @param modelAndView modelAndView
+     * @param pageNum 分页页码
+     * @param empID 员工ID
+     * @param empName 员工姓名
+     * @param sex 性别
+     * @param job 职位
+     * @param attr 用户重定向后页面，存储数据
+     * @return 分页查询成功：empManager.html视图
+     *             查询失败：重定向到redirect:/emp/1
      */
     @RequestMapping("/conditional")
     public ModelAndView empManagerByConditional(ModelAndView modelAndView,
@@ -80,21 +82,25 @@ public class EmpController {
                                                     RedirectAttributes attr){
         Page<Emp> page =new Page<>(pageNum,10);
         QueryWrapper<Emp> empQueryWrapper = new QueryWrapper<>();
-        if (!empID.equals("")) {
+
+        // 如果附带条件查询，则把条件放入QueryWrapper<Emp> 条件构造器中
+        if (!"".equals(empID)) {
             empQueryWrapper.eq("empID",empID);
         }
-        if (!empName.equals("")) {
+        if (!"".equals(empName)) {
             empQueryWrapper.eq("empName",empName);
         }
-        if (!sex.equals("")) {
+        if (!"".equals(sex)) {
             empQueryWrapper.eq("sex",sex);
         }
-        if (!job.equals("")) {
+        if (!"".equals(job)) {
             empQueryWrapper.eq("job",job);
         }
 
+        // 分页查询
         empMapper.selectPage(page,empQueryWrapper);
 
+        // 判断是否查询成功
         if (page.getRecords().size() > 0) {
             modelAndView.setViewName("empManager");
             modelAndView.addObject("empIPage", page);
@@ -120,7 +126,7 @@ public class EmpController {
 
     /**
      * 添加新员工视图映射
-     * @return
+     * @return empAdd.html视图
      */
     @RequestMapping("/empAdd")
     public String empAdd(){
@@ -128,31 +134,36 @@ public class EmpController {
     }
 
     /**
-     * 添加新员工API
-     * @param modelAndView
-     * @param empName
-     * @param realName
-     * @param password
-     * @param sex
-     * @param job
-     * @param address
-     * @param phone
-     * @return
+     * 添加新员工业务
+     * @param modelAndView modelAndView
+     * @param empName 员工用户名
+     * @param realName 真实姓名
+     * @param password 密码
+     * @param sex 性别
+     * @param job 职位
+     * @param address 地址
+     * @param phone 联系方式
+     * @return 如果要添加的用户名存在，处理"/emoAdd"请求，跳转到empAdd.html,重新修改
+     *         如果要添加的用户名不存在，且添加成功：重定向到redirect:/emp/1
+     *                               添加不成功：处理"/emoAdd"请求，跳转到empAdd.html,重新修改
      */
     @RequestMapping("/save")
     public ModelAndView empSave(ModelAndView modelAndView,
-                                @RequestParam(name = "empName",required = true) String empName,
-                                @RequestParam(name = "realName", required = true) String realName,
-                                @RequestParam(name = "password", required = true) String password,
-                                @RequestParam(name = "sex", required = true) String sex,
-                                @RequestParam(name = "job", required = true) String job,
-                                @RequestParam(name = "address", required = true) String address,
-                                @RequestParam(name = "phone", required = true) String phone){
+                                @RequestParam(name = "empName") String empName,
+                                @RequestParam(name = "realName") String realName,
+                                @RequestParam(name = "password") String password,
+                                @RequestParam(name = "sex") String sex,
+                                @RequestParam(name = "job") String job,
+                                @RequestParam(name = "address") String address,
+                                @RequestParam(name = "phone") String phone){
 
         QueryWrapper<Emp> empQueryWrapper = new QueryWrapper<>();
         empQueryWrapper.eq("empName",empName);
         Emp emp = empMapper.selectOne(empQueryWrapper);
+
+        // 判断目标的empName在数据库中是否存在
         if (emp!=null){
+            // 如果存在，则不允许使用当前用户名
             modelAndView.setViewName("/empAdd");
             modelAndView.addObject("msg","用户名已存在,请重试");
             modelAndView.addObject("empName",empName);
@@ -164,6 +175,8 @@ public class EmpController {
             modelAndView.addObject("phone",phone);
             return modelAndView;
         }
+
+        // 用户名不存在，继续进行下一步操作
         Emp addEmp = new Emp();
         addEmp.setEmpName(empName);
         addEmp.setRealName(realName);
@@ -174,11 +187,15 @@ public class EmpController {
         addEmp.setPhone(phone);
 
         int insert = empMapper.insert(addEmp);
+
+        // 是否修改成功
         if (insert>0){
+            // 成功
             modelAndView.setViewName("redirect:/emp/1");
             modelAndView.addObject("msg","添加成功！");
             return modelAndView;
         }
+        // 失败
         modelAndView.setViewName("/empAdd");
         modelAndView.addObject("msg","添加失败");
         return modelAndView;
@@ -187,9 +204,9 @@ public class EmpController {
 
     /**
      * 员工修改跳转
-     * @param empID
-     * @param modelAndView
-     * @return
+     * @param empID 员工ID
+     * @param modelAndView modelAndView
+     * @return empUpdate.html视图
      */
     @RequestMapping("/edit/{empID}")
     public ModelAndView empEdit(@PathVariable("empID") Long empID,ModelAndView modelAndView){
@@ -201,14 +218,21 @@ public class EmpController {
 
     /**
      * 员工更新API
-     * @param modelAndView
-     * @param empID
-     * @param realName
-     * @param sex
-     * @param job
-     * @param address
-     * @param phone
-     * @return
+     * @param modelAndView modelAndView
+     * @param empID 员工ID
+     * @param realName 这是姓名
+     * @param sex 性别
+     * @param job 职位
+     * @param address 地址
+     * @param phone 联系方式
+     * @param behavior 发送当前请求的来源，是否为员工自己
+     *                 "yourself":员工自己的请求
+     *                         "":来自管理的请求
+     * @return 如果修改成功，请求来自员工本身：defaultIndex.html
+     *                     请求来自管理员：重定向到redirect:/emp/1
+     *
+     *         如果修改失败，请求来自员工本身：重定向到 redirect:/emp/center"+empID
+     *                     请求来自管理员：empUpdate.html
      */
     @RequestMapping("/update")
     public ModelAndView empUpdate(ModelAndView modelAndView,
@@ -230,21 +254,28 @@ public class EmpController {
 
         // 如果修改成功
         if (update>=1){
-            if (behavior.equals("yourself")){
+            if ("yourself".equals(behavior)){
+                // 请求来用户本身
                 // 跳转回默认页面
                 modelAndView.setViewName("defaultIndex");
                 return modelAndView;
             }
+            // 请求来自管理员
+            // 重定向回所有员工分页显示页面
             modelAndView.setViewName("redirect:/emp/1");
             return modelAndView;
         }
 
         // 如果修改失败
-        if (behavior.equals("yourself")){
+        if ("yourself".equals(behavior)){
+            // 请求来自用户本身
+            // 重定向回员工个人中心
             String url = "redirect:/emp/center"+empID;
             modelAndView.setViewName(url);
         }
         else {
+            // 请求来自管理员
+            // 重定向回管理员修改员工信息界面
             modelAndView.setViewName("empUpdate");
         }
         modelAndView.addObject("emp",empMapper.selectById(empID));
@@ -254,10 +285,10 @@ public class EmpController {
 
     /**
      * 员工删除API
-     * @param modelAndView
-     * @param empID
-     * @param attr
-     * @return
+     * @param modelAndView modelAndView
+     * @param empID 员工ID
+     * @param attr 用户重定向后，数据传递
+     * @return 重定向到redirect:/emp/1
      */
     @RequestMapping("/delete/{empID}")
     public ModelAndView empDelete(ModelAndView modelAndView,
@@ -284,9 +315,9 @@ public class EmpController {
 
     /**
      * 员工个人中心跳转
-     * @param empID
-     * @param modelAndView
-     * @return modelAndView
+     * @param empID 用户ID
+     * @param modelAndView modelAndView
+     * @return empCenter.html视图
      */
     @RequestMapping("/center/{empID}")
     public ModelAndView empCenter(@PathVariable("empID") Long empID, ModelAndView modelAndView){
@@ -298,10 +329,11 @@ public class EmpController {
     }
 
     /**
-     * 员工管理自己的课程
-     * @param modelAndView
-     * @param empID
-     * @return
+     * 员工管理自己的课程,显示自己教授的所有课程
+     * @param modelAndView modelAndView
+     * @param empID 用户ID
+     * @param pageNum 分页页码
+     * @return empCourseManager.html
      */
     @RequestMapping("/course/{empID}/{pageNum}")
     public ModelAndView empCourse(ModelAndView modelAndView,

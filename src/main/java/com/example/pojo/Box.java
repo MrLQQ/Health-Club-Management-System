@@ -9,11 +9,15 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * 储物柜实体类
+ * @author LQQ
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("Box")
-public class Box {
+public class Box{
 
     @TableId(type = IdType.NONE)
     private String boxID;

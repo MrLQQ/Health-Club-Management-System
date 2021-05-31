@@ -109,7 +109,9 @@ public class CourseController {
     }
 
     @RequestMapping("/edit/{courseID}")
-    public ModelAndView courseEdit(@PathVariable("courseID") Long courseID,@RequestParam("behavior") String behavior,ModelAndView modelAndView){
+    public ModelAndView courseEdit(@PathVariable("courseID") Long courseID,
+                                   @RequestParam(value = "behavior",defaultValue = "") String behavior,
+                                   ModelAndView modelAndView){
         modelAndView.setViewName("courseUpdate");
         Course course = courseMapper.selectById(courseID);
         QueryWrapper<Emp> empQueryWrapper =new QueryWrapper<>();
@@ -133,7 +135,7 @@ public class CourseController {
                                    @RequestParam(name = "empName", required = true) String empName,
                                    @RequestParam(name = "time", required = true) String time,
                                    @RequestParam(name = "residue", required = true) Integer residue,
-                                   @RequestParam("behavior") String behavior){
+                                   @RequestParam(value = "behavior", defaultValue = "") String behavior){
 
         Course course = new Course();
         course.setCourseID(courseID);

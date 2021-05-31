@@ -218,7 +218,7 @@ public class EmpController {
                                   @RequestParam(name = "job", required = true) String job,
                                   @RequestParam(name = "address", required = true) String address,
                                   @RequestParam(name = "phone", required = true) String phone,
-                                  @RequestParam(name= "behavior")String behavior){
+                                  @RequestParam(name= "behavior",defaultValue = "")String behavior){
         Emp emp = new Emp();
         emp.setEmpID(empID);
         emp.setRealName(realName);

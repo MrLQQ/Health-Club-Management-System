@@ -25,22 +25,22 @@ public class OSSClientUtil{
     /**
      * 阿里云OSS地址，这里看根据你的oss选择
      */
-    protected static String endpoint = "oss-cn-beijing.aliyuncs.com";
+    protected static String endpoint = " ";
 
     /**
      * 阿里云OSS账号
      */
-    protected static String accessKeyId = "LTAI5t6gPJZAgVXs6dZ6NKsa";
+    protected static String accessKeyId = " ";
 
     /**
      * 阿里云OSS密钥
      */
-    protected static String accessKeySecret = "jl3tqrjqxX2QuR0KzEp0g5gndWHOfD";
+    protected static String accessKeySecret = " ";
 
     /**
      * 阿里云OSS上的存储块bucket名字
      */
-    protected static String bucketName = "health-club-management-system";
+    protected static String bucketName = " ";
 
     /**
      * 阿里云图片文件存储目录

@@ -41,9 +41,9 @@ mybatis-plus:
     map-underscore-to-camel-case: false
 
 aliyun:
-  endpoint: oss-cn-beijing.aliyuncs.com
-  accessKeyId: LTAI5t6gPJZAgVXs6dZ6NKsa
-  accessKeySecret: jl3tqrjqxX2QuR0KzEp0g5gndWHOfD
+  endpoint: 
+  accessKeyId: 
+  accessKeySecret: 
   bucketName: health-club-management-system
   urlPrefix: health-club-management-system.oss-cn-beijing.aliyuncs.com
   filedir: image/
